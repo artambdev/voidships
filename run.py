@@ -4,4 +4,11 @@ def begin():
     """
     print("- WELCOME TO VOIDSHIPS -\n\nIt is the far flung future.\nAdvanced stealth technology results in most battles being fought by invisible 'voidships' blind-firing into unknown space.\nYou are the commander of a pirate outfit, raiding imperial patrols for fortune and glory.")
 
+    while True:
+        inputed_name = input("Enter your name, Captain: \n")
+        if inputed_name.isspace() == False:
+            inputed_name = inputed_name.title()
+            print(f"\nWelcome aboard, Captain {inputed_name}.")
+            break
+
 begin()
