@@ -19,6 +19,14 @@ class Board:
                 new_space = GridSpace(i, j)
                 new_row.append(new_space)
             self.grid.append(new_row)
+    
+    def print_board(self):
+        output = ""
+        for row in self.grid:
+            for space in row:
+                output += "~ "
+            output += "\n"
+        print(output)
 
 def begin():
     """
@@ -32,7 +40,8 @@ def begin():
             # changes e.g "jack tannen" or "JACK TANNEN" to just "Jack Tannen"
             inputed_name = inputed_name.title()
             print(f"\nWelcome aboard, Captain {inputed_name}.")
-            test_board = Board("player", 5, 5)
+            test_board = Board("player", 6, 6)
+            test_board.print_board()
             break
         else:
             print("No name entered.")
