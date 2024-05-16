@@ -10,7 +10,7 @@ class GridSpace():
 class Board:
     """
     The board of the player or enemy
-    Contains a list of grid rows, which are themselves lists of spaces
+    Contains a list of grid columns, which are themselves lists of spaces
     """
 
     def __init__(self, side, length, width):
@@ -20,15 +20,15 @@ class Board:
 
         self.grid = []
         for i in range(width):
-            new_row = []
+            new_column = []
             for j in range(length):
                 new_space = GridSpace(i, j)
-                new_row.append(new_space)
+                new_column.append(new_space)
             self.grid.append(new_row)
     
     def print_board(self):
         output = ""
-        for row in self.grid:
+        for column in self.grid:
             for space in row:
                 output += "~ "
             output += "\n"
@@ -43,6 +43,23 @@ def begin_battle(player_name):
 
     print(f"\n- IMPERIAL PATROL -")
     enemy_board.print_board()
+
+    still_playing = True
+    while still_playing:
+        player_choice = input("Your command: \n")
+        if player_choice.startswith("fire"):
+            fire_command = player_choice.removeprefix("fire ")
+            fire_coords = fire_command.split()
+            try:
+                [int(coord) for coord in fire_coords]
+                if len(values) != 2:
+                    raise ValueError(
+                        f"FIRE command must be followed by consistent of two numbers (column number, a space, then row number)\ne.g 'fire 4 2'"
+                    )
+                
+            except ValueError as e:
+                print(f"Invalid co-ordinates: {e}.\n")
+                return False
 
 def begin():
     """
