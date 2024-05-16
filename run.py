@@ -1,12 +1,18 @@
 class GridSpace():
     """
     Class representing a single space in the board
+    Spaces know their own location to easily find other spaces
     """
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
 class Board:
+    """
+    The board of the player or enemy
+    Contains a list of grid rows, which are themselves lists of spaces
+    """
+
     def __init__(self, side, length, width):
         self.side = side
         self.length = length
@@ -28,6 +34,16 @@ class Board:
             output += "\n"
         print(output)
 
+def begin_battle(player_name):
+    player_board = Board("player", 6, 6)
+    enemy_board = Board("enemy", 6, 6)
+
+    print(f"- {player_name.upper()}'S RAIDERS -")
+    player_board.print_board()
+
+    print(f"\n- IMPERIAL PATROL -")
+    enemy_board.print_board()
+
 def begin():
     """
     Initial sequence: welcome the player and ask for their name
@@ -40,8 +56,7 @@ def begin():
             # changes e.g "jack tannen" or "JACK TANNEN" to just "Jack Tannen"
             inputed_name = inputed_name.title()
             print(f"\nWelcome aboard, Captain {inputed_name}.")
-            test_board = Board("player", 6, 6)
-            test_board.print_board()
+            begin_battle(inputed_name)
             break
         else:
             print("No name entered.")
