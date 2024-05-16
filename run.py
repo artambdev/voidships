@@ -7,6 +7,8 @@ class GridSpace():
         self.x = x
         self.y = y
 
+        self.know_empty = False
+
 class Board:
     """
     The board of the player or enemy
@@ -30,7 +32,10 @@ class Board:
         output = ""
         for column in self.grid:
             for space in column:
-                output += "~ "
+                if space.know_empty:
+                    output += "X "
+                else:
+                    output += "~ "
             output += "\n"
         print(output)
 
@@ -69,8 +74,13 @@ def begin_battle(player_name):
                     raise ValueError(
                         f"Co-ordinates are too far down! You picked column {fire_coords[1]}, furthest is column {enemy_board.width}"
                     )
+                enemy_board.grid[int(fire_coords[0]) - 1][int(fire_coords[1]) - 1].know_empty = True
+                print(f"\n- IMPERIAL PATROL -")
+                enemy_board.print_board()
             except ValueError as e:
                 print(f"Invalid co-ordinates: {e}.\n")
+            
+
 
 
 
