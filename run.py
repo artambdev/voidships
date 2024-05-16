@@ -24,19 +24,19 @@ class Board:
             for j in range(length):
                 new_space = GridSpace(i, j)
                 new_column.append(new_space)
-            self.grid.append(new_row)
+            self.grid.append(new_column)
     
     def print_board(self):
         output = ""
         for column in self.grid:
-            for space in row:
+            for space in column:
                 output += "~ "
             output += "\n"
         print(output)
 
 def begin_battle(player_name):
-    player_board = Board("player", 6, 6)
-    enemy_board = Board("enemy", 6, 6)
+    player_board = Board("player", 7, 6)
+    enemy_board = Board("enemy", 7, 6)
 
     print(f"- {player_name.upper()}'S RAIDERS -")
     player_board.print_board()
@@ -52,14 +52,27 @@ def begin_battle(player_name):
             fire_coords = fire_command.split()
             try:
                 [int(coord) for coord in fire_coords]
-                if len(values) != 2:
+                if len(fire_coords) != 2:
                     raise ValueError(
                         f"FIRE command must be followed by consistent of two numbers (column number, a space, then row number)\ne.g 'fire 4 2'"
                     )
-                
+                for coord in fire_coords:
+                    if int(coord) < 1:
+                        raise ValueError(
+                            f"FIRE command coordinates must be positive numbers (number of column and row to target)"
+                        )
+                if int(fire_coords[0]) > enemy_board.length:
+                    raise ValueError(
+                        f"Co-ordinates are too far right! You picked column {fire_coords[0]}, furthest is column {enemy_board.length}"
+                    )
+                if int(fire_coords[1]) > enemy_board.width:
+                    raise ValueError(
+                        f"Co-ordinates are too far down! You picked column {fire_coords[1]}, furthest is column {enemy_board.width}"
+                    )
             except ValueError as e:
                 print(f"Invalid co-ordinates: {e}.\n")
-                return False
+
+
 
 def begin():
     """
