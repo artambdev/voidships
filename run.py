@@ -7,8 +7,11 @@ def begin():
     while True:
         inputed_name = input("Enter your name, Captain: \n")
         if inputed_name.isspace() == False:
+            # changes e.g "jack tannen" or "JACK TANNEN" to just "Jack Tannen"
             inputed_name = inputed_name.title()
             print(f"\nWelcome aboard, Captain {inputed_name}.")
             break
+        else:
+            print("No name entered.")
 
 begin()
