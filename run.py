@@ -59,7 +59,7 @@ def begin_battle(player_name):
                 [int(coord) for coord in fire_coords]
                 if len(fire_coords) != 2:
                     raise ValueError(
-                        f"FIRE command must be followed by consistent of two numbers (column number, a space, then row number)\ne.g 'fire 4 2'"
+                        f"FIRE command must be followed by two numbers (row number, a space, then column number)\ne.g 'fire 4 2'"
                     )
                 for coord in fire_coords:
                     if int(coord) < 1:
@@ -68,11 +68,11 @@ def begin_battle(player_name):
                         )
                 if int(fire_coords[0]) > enemy_board.length:
                     raise ValueError(
-                        f"Co-ordinates are too far right! You picked column {fire_coords[0]}, furthest is column {enemy_board.length}"
+                        f"Too far right! You picked column {fire_coords[0]}, furthest is column {enemy_board.length}"
                     )
                 if int(fire_coords[1]) > enemy_board.width:
                     raise ValueError(
-                        f"Co-ordinates are too far down! You picked column {fire_coords[1]}, furthest is column {enemy_board.width}"
+                        f"Too far down! You picked row {fire_coords[1]}, lowest is row {enemy_board.width}"
                     )
                 enemy_board.grid[int(fire_coords[0]) - 1][int(fire_coords[1]) - 1].know_empty = True
                 print(f"\n- IMPERIAL PATROL -")
