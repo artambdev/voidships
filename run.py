@@ -1,3 +1,5 @@
+import random
+
 class GridSpace():
     """
     Class representing a single space in the board
@@ -7,6 +9,7 @@ class GridSpace():
         self.x = x
         self.y = y
 
+        self.ship = None
         self.know_empty = False
 
 class Board:
@@ -37,7 +40,9 @@ class Board:
         output = ""
         for column in self.grid:
             for space in column:
-                if space.know_empty:
+                if space.ship == "ship":
+                    output += "@ "
+                elif space.know_empty:
                     output += "X "
                 else:
                     output += "~ "
@@ -53,11 +58,24 @@ class Board:
             for space in column:
                 all_spaces.append(space)
         return all_spaces
+    
+    def add_ships(self, num_ships):
+        all_spaces = self.get_all_spaces()
+        for space in all_spaces.copy():
+            if space.ship != None:
+                all_spaces.remove(space)
+        random.shuffle(all_spaces)
+        for i in range(num_ships):
+            picked_space = all_spaces.pop(0)
+            picked_space.ship = "ship"
 
 
 def begin_battle(player_name):
     player_board = Board("player", 7, 6)
     enemy_board = Board("enemy", 7, 6)
+
+    player_board.add_ships(6)
+    enemy_board.add_ships(6)
 
     print(f"- {player_name.upper()}'S RAIDERS -")
     player_board.print_board()
