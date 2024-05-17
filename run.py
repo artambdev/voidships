@@ -29,6 +29,11 @@ class Board:
             self.grid.append(new_column)
     
     def print_board(self):
+        """
+        Prints out the board visually
+        ~ indicates empty spaces
+        X indicates empty spaces the other player knows are empty
+        """
         output = ""
         for column in self.grid:
             for space in column:
@@ -38,6 +43,17 @@ class Board:
                     output += "~ "
             output += "\n"
         print(output)
+
+    def get_all_spaces(self):
+        """
+        Returns every space in the grid as a single list
+        """
+        all_spaces = []
+        for column in self.grid:
+            for space in column:
+                all_spaces.append(space)
+        return all_spaces
+
 
 def begin_battle(player_name):
     player_board = Board("player", 7, 6)
