@@ -92,12 +92,6 @@ def begin_battle(player_name):
 
     still_playing = True
     while still_playing:
-        player_won = check_win(enemy_board)
-        if player_won:
-            still_playing = False
-            print(f"- VICTORY! -")
-            break
-
         player_choice = input("Your command: \n")
         if player_choice.startswith("fire"):
             fire_command = player_choice.removeprefix("fire ")
@@ -132,6 +126,13 @@ def begin_battle(player_name):
                 enemy_board.print_board()
             except ValueError as e:
                 print(f"Invalid co-ordinates: {e}.\n")
+        
+        player_won = check_win(enemy_board)
+        if player_won:
+            still_playing = False
+            print(f"- VICTORY! -")
+            break
+    
             
 def begin():
     """
