@@ -18,7 +18,6 @@ class Board:
     The board of the player or enemy
     Contains a list of grid columns, which are themselves lists of spaces
     """
-
     def __init__(self, side, length, width):
         self.side = side
         self.length = length
@@ -41,7 +40,7 @@ class Board:
         output = ""
         for column in self.grid:
             for space in column:
-                if space.ship == "ship" and side == "player":
+                if space.ship == "ship":
                     output += "@ "
                 elif space.ship == "ship" and space.shot_at:
                     output += "# "
@@ -72,15 +71,20 @@ class Board:
             picked_space = all_spaces.pop(0)
             picked_space.ship = "ship"
 
+def check_win(board):
+    for space in board.get_all_spaces():
+        if (space.ship != None) and (space.shot_at == False):
+            return False
+    return True
 
 def begin_battle(player_name):
     player_board = Board("player", 7, 6)
     enemy_board = Board("enemy", 7, 6)
 
     player_board.add_ships(6)
-    enemy_board.add_ships(6)
+    enemy_board.add_ships(1)
 
-    print(f"- {player_name.upper()}'S RAIDERS -")
+    print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
     player_board.print_board()
 
     print(f"\n- IMPERIAL PATROL -")
@@ -88,6 +92,12 @@ def begin_battle(player_name):
 
     still_playing = True
     while still_playing:
+        player_won = check_win(enemy_board)
+        if player_won:
+            still_playing = False
+            print(f"- VICTORY! -")
+            break
+
         player_choice = input("Your command: \n")
         if player_choice.startswith("fire"):
             fire_command = player_choice.removeprefix("fire ")
@@ -111,22 +121,18 @@ def begin_battle(player_name):
                     raise ValueError(
                         f"Too far down! You picked row {fire_coords[1]}, lowest is row {enemy_board.width}"
                     )
-                hit_space = enemy_board.grid[int(fire_coords[0]) - 1][int(fire_coords[1]) - 1]
+                hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
                 hit_space.shot_at = True
                 if hit_space.ship == None:
-                    Print("Missed!")
+                    print("Missed!")
                     hit_space.know_empty = True
                 else:
-                    Print("DIRECT HIT!")
+                    print("DIRECT HIT!")
                 print(f"\n- IMPERIAL PATROL -")
                 enemy_board.print_board()
             except ValueError as e:
                 print(f"Invalid co-ordinates: {e}.\n")
             
-
-
-
-
 def begin():
     """
     Initial sequence: welcome the player and ask for their name
