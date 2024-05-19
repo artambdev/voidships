@@ -14,6 +14,9 @@ class GridSpace():
         self.shot_at = False
     
     def hit_space(self):
+        """
+        Sets a space as being 'hit' and shows feedback
+        """
         self.shot_at = True
          if hit_space.ship == None:
                 print("Missed!")
@@ -45,10 +48,14 @@ class Board:
         Prints out the board visually
         ~ indicates empty spaces
         X indicates empty spaces the other player knows are empty
+        @ indicates functional ships
+        # indicates destroyed ships
         """
         output = ""
         for column in self.grid:
             for space in column:
+                # TODO: this is debug!!!! REMOVE THIS
+                # if space.ship == "ship" and self.side = "player":
                 if space.ship == "ship":
                     output += "@ "
                 elif space.ship == "ship" and space.shot_at:
@@ -71,6 +78,10 @@ class Board:
         return all_spaces
     
     def add_ships(self, num_ships):
+        """
+        Adds a specified number of single-tile ships
+        to random spaces in the board
+        """
         all_spaces = self.get_all_spaces()
         for space in all_spaces.copy():
             if space.ship != None:
@@ -81,12 +92,20 @@ class Board:
             picked_space.ship = "ship"
 
 def check_win(board):
+    """
+    Checks if a player has won the game via their opponent's board
+    If the other board contains no non-hit ships, their opponent has lost
+    """
     for space in board.get_all_spaces():
         if (space.ship != None) and (space.shot_at == False):
             return False
     return True
 
 def begin_battle(player_name):
+    """
+    Contains the main game logic
+    Set up the match, then continuously ask for and parse player commands until someone has won
+    """
     player_board = Board("player", 7, 6)
     enemy_board = Board("enemy", 7, 6)
 
