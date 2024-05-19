@@ -12,6 +12,15 @@ class GridSpace():
         self.ship = None
         self.know_empty = False
         self.shot_at = False
+    
+    def hit_space(self):
+        self.shot_at = True
+         if hit_space.ship == None:
+                print("Missed!")
+                hit_space.know_empty = True
+            else:
+                print("DIRECT HIT!")
+
 
 class Board:
     """
@@ -116,12 +125,6 @@ def begin_battle(player_name):
                         f"Too far down! You picked row {fire_coords[1]}, lowest is row {enemy_board.width}"
                     )
                 hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
-                hit_space.shot_at = True
-                if hit_space.ship == None:
-                    print("Missed!")
-                    hit_space.know_empty = True
-                else:
-                    print("DIRECT HIT!")
                 print(f"\n- IMPERIAL PATROL -")
                 enemy_board.print_board()
             except ValueError as e:
