@@ -13,14 +13,14 @@ class GridSpace():
         self.know_empty = False
         self.shot_at = False
     
-    def hit_space(self):
+    def get_hit(self):
         """
         Sets a space as being 'hit' and shows feedback
         """
         self.shot_at = True
-        if hit_space.ship == None:
+        if self.ship == None:
             print("Missed!")
-            hit_space.know_empty = True
+            self.know_empty = True
         else:
             print("DIRECT HIT!")
 
@@ -57,7 +57,7 @@ class Board:
                 # if space.ship == "ship" and self.side = "player":
                 if space.ship == "ship":
                     output += "@ "
-                elif space.ship == "ship" and space.shot_at:
+                if space.ship == "ship" and space.shot_at:
                     output += "# "
                 elif space.shot_at:
                     output += "X "
@@ -135,7 +135,6 @@ class Board:
         if down:
             for i in range(length):
                 self.grid[x][y + i].ship = "ship"
-
         else:
             for i in range(length):
                 self.grid[x + i][y].ship = "ship"
@@ -158,8 +157,8 @@ def begin_battle(player_name):
     player_board = Board("player", 7, 6)
     enemy_board = Board("enemy", 7, 6)
 
-    player_board.add_ships(4)
-    enemy_board.add_ships(3)
+    player_board.add_ships(7)
+    enemy_board.add_ships(7)
 
     print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
     player_board.print_board()
@@ -193,6 +192,7 @@ def begin_battle(player_name):
                         f"Too far down! You picked row {fire_coords[1]}, lowest is row {enemy_board.width}"
                     )
                 hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
+                hit_space.get_hit()
                 print(f"\n- IMPERIAL PATROL -")
                 enemy_board.print_board()
             except ValueError as e:
