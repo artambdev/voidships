@@ -50,8 +50,14 @@ class Board:
         @ indicates functional ships
         # indicates destroyed ships
         """
-        output = ""
+        # Two spaces for the blank top-left corner
+        output = "  "
+        for i in range(self.length):
+            output += str(i + 1) + " "
+        output += "\n"
+        column_num = 1
         for column in self.grid:
+            output += str(column_num) + " "
             for space in column:
                 if space.ship == "ship" and space.shot_at:
                     output += "# "
@@ -59,13 +65,12 @@ class Board:
                 # if space.ship == "ship" and self.side = "player":
                 elif space.ship == "ship":
                     output += "@ "
-                if space.ship == "ship" and space.shot_at:
-                    output += "# "
                 elif space.shot_at:
                     output += "X "
                 else:
                     output += "~ "
             output += "\n"
+            column_num += 1
         print(output)
 
     def get_all_spaces(self):
@@ -178,12 +183,12 @@ def begin_battle(player_name):
                 [int(coord) for coord in fire_coords]
                 if len(fire_coords) != 2:
                     raise ValueError(
-                        f"FIRE command must be followed by two numbers (row number, a space, then column number)\ne.g 'fire 4 2'"
+                        f"FIRE command must be followed by two numbers (column number, a space, then row number)\ne.g 'fire 4 2'"
                     )
                 for coord in fire_coords:
                     if int(coord) < 1:
                         raise ValueError(
-                            f"FIRE command coordinates must be positive numbers (number of column and row to target)"
+                            f"FIRE command coordinates must be positive numbers (number of column then row to target)"
                         )
                 if int(fire_coords[0]) > enemy_board.length:
                     raise ValueError(
