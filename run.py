@@ -18,12 +18,11 @@ class GridSpace():
         Sets a space as being 'hit' and shows feedback
         """
         self.shot_at = True
-         if hit_space.ship == None:
-                print("Missed!")
-                hit_space.know_empty = True
-            else:
-                print("DIRECT HIT!")
-
+        if hit_space.ship == None:
+            print("Missed!")
+            hit_space.know_empty = True
+        else:
+            print("DIRECT HIT!")
 
 class Board:
     """
@@ -75,21 +74,71 @@ class Board:
         for column in self.grid:
             for space in column:
                 all_spaces.append(space)
-        return all_spaces
+        return all_spaces.copy()
     
     def add_ships(self, num_ships):
         """
-        Adds a specified number of single-tile ships
+        Adds a specified number of two-tile ships
         to random spaces in the board
         """
-        all_spaces = self.get_all_spaces()
-        for space in all_spaces.copy():
-            if space.ship != None:
-                all_spaces.remove(space)
-        random.shuffle(all_spaces)
+        
         for i in range(num_ships):
-            picked_space = all_spaces.pop(0)
-            picked_space.ship = "ship"
+            all_spaces = self.get_all_spaces()
+            for space in all_spaces.copy():
+                if space.ship != None:
+                    all_spaces.remove(space)
+            picked = False
+            while not picked:
+                random.shuffle(all_spaces)
+                picked_space = all_spaces.pop(0)
+                # Up/Down and Left/Right are the same thing, so just assume Down or Right
+                orientations = ["down", "right"]
+                random.shuffle(orientations)
+                trying_to_place = True
+                while trying_to_place:
+                    direction = orientations.pop(0)
+                    clear = self.check_clear(picked_space, 2, direction == "down")
+                    if clear:
+                        self.place_ship(picked_space, 2, direction == "down")
+                        trying_to_place = False
+                        picked = True
+                    if len(orientations) == 0:
+                        trying_to_place = False
+    
+    def check_clear(self, from_space, spaces, down):
+        x = from_space.x
+        y = from_space.y
+        #self.grid[x][y].ship = "ship"
+        #self.print_board()
+        #print(down)
+        #print(x)
+        #print(y)
+        #print("\n")
+        if down:
+            for i in range(spaces):
+                if y + i > self.length - 1:
+                    return False
+                if self.grid[x][y + i].ship != None:
+                    return False
+            return True
+        else:
+            for i in range(spaces):
+                if x + i > self.width - 1:
+                    return False
+                if self.grid[x + i][y].ship != None:
+                    return False
+            return True
+
+    def place_ship(self, from_space, length, down):
+        x = from_space.x
+        y = from_space.y
+        if down:
+            for i in range(length):
+                self.grid[x][y + i].ship = "ship"
+
+        else:
+            for i in range(length):
+                self.grid[x + i][y].ship = "ship"
 
 def check_win(board):
     """
@@ -109,8 +158,8 @@ def begin_battle(player_name):
     player_board = Board("player", 7, 6)
     enemy_board = Board("enemy", 7, 6)
 
-    player_board.add_ships(6)
-    enemy_board.add_ships(1)
+    player_board.add_ships(4)
+    enemy_board.add_ships(3)
 
     print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
     player_board.print_board()
