@@ -53,9 +53,11 @@ class Board:
         output = ""
         for column in self.grid:
             for space in column:
+                if space.ship == "ship" and space.shot_at:
+                    output += "# "
                 # TODO: this is debug!!!! REMOVE THIS
                 # if space.ship == "ship" and self.side = "player":
-                if space.ship == "ship":
+                elif space.ship == "ship":
                     output += "@ "
                 if space.ship == "ship" and space.shot_at:
                     output += "# "
