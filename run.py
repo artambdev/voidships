@@ -83,6 +83,46 @@ class Board:
                 all_spaces.append(space)
         return all_spaces.copy()
     
+    def pick_target(self):
+        """
+        Picks a suitable target space to shoot at
+        If any destroyed ship space has adjacent unknown spaces, pick one of those
+        Otherwise, pick a random space to probe
+        """
+        good_targets = []
+        all_spaces = self.get_all_spaces()
+
+        found_ship_space = False
+        for space in all_spaces:
+            # Only spaces that have already been confirmed has having had a ship
+            if space.ship == None or space.shot_at == False:
+                continue
+            # Left
+            if space.x != 0:
+                good_targets.append(self.grid[space.x - 1][space.y])
+            # Up    
+            if space.y != 0:
+                good_targets.append(self.grid[space.x][space.y - 1])
+            # Right
+            if space.x < self.length - 1:
+                good_targets.append(self.grid[space.x + 1][space.y])
+            # Down
+            if space.y < self.width - 1:
+                good_targets.append(self.grid[space.x][space.y + 1])
+        
+        # Don't fire at adjacent spaces if we already have done so
+        for space in good_targets.copy():
+            if space.shot_at:
+                good_targets.remove(space)
+    
+        # No adjacent spaces to ships? Just pick a random space instead
+        if len(good_targets) == 0:
+            for space in all_spaces:
+                good_targets.append(space)
+        random.shuffle(good_targets)
+        return good_targets[0]
+
+    
     def add_ships(self, num_ships):
         """
         Adds a specified number of two-tile ships
@@ -104,9 +144,9 @@ class Board:
                 trying_to_place = True
                 while trying_to_place:
                     direction = orientations.pop(0)
-                    clear = self.check_clear(picked_space, 2, direction == "down")
+                    clear = self.check_clear(picked_space, 3, direction == "down")
                     if clear:
-                        self.place_ship(picked_space, 2, direction == "down")
+                        self.place_ship(picked_space, 3, direction == "down")
                         trying_to_place = False
                         picked = True
                     if len(orientations) == 0:
@@ -164,8 +204,8 @@ def begin_battle(player_name):
     player_board = Board("player", 7, 6)
     enemy_board = Board("enemy", 7, 6)
 
-    player_board.add_ships(7)
-    enemy_board.add_ships(7)
+    player_board.add_ships(3)
+    enemy_board.add_ships(3)
 
     print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
     player_board.print_board()
@@ -200,8 +240,6 @@ def begin_battle(player_name):
                     )
                 hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
                 hit_space.get_hit()
-                print(f"\n- IMPERIAL PATROL -")
-                enemy_board.print_board()
             except ValueError as e:
                 print(f"Invalid co-ordinates: {e}.\n")
         
@@ -210,6 +248,12 @@ def begin_battle(player_name):
             still_playing = False
             print(f"- VICTORY! -")
             break
+        
+        print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
+        player_board.print_board()
+
+        print(f"\n- IMPERIAL PATROL -")
+        enemy_board.print_board()
     
             
 def begin():
