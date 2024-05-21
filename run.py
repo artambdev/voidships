@@ -249,6 +249,16 @@ def begin_battle(player_name):
             print(f"- VICTORY! -")
             break
         
+        enemy_picked_space = player_board.pick_target()
+        print(f"\nThe enemy fired at: ({str(enemy_picked_space.x)}, {str(enemy_picked_space.y)})")
+        enemy_picked_space.get_hit()
+
+        enemy_won = check_win(player_board)
+        if enemy_won:
+            still_playing = False
+            print(f"- DEFEAT -")
+            break
+
         print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
         player_board.print_board()
 
