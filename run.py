@@ -101,8 +101,8 @@ class Board:
                 if space.ship == "ship" and space.shot_at:
                     output += "# "
                 # TODO: this is debug!!!! REMOVE THIS
-                # if space.ship == "ship" and self.side = "player":
-                elif space.ship == "ship":
+                elif space.ship == "ship" and self.side = "player":
+                #elif space.ship == "ship":
                     output += "@ "
                 elif space.shot_at:
                     output += "X "
