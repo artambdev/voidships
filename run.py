@@ -236,12 +236,12 @@ def begin_battle(player_name):
     Contains the main game logic
     Set up the match, then continuously ask for and parse player commands until someone has won
     """
-    player_board = Board("player", 7, 6)
-    enemy_board = Board("enemy", 7, 6)
+    player_board = Board("player", 10, 10)
+    enemy_board = Board("enemy", 10, 10)
 
-    player_ships = [Frigate(), Frigate()]
+    player_ships = [Battleship(), Cruiser(), Destroyer(), Destroyer(), Frigate()]
     player_board.add_ships(player_ships)
-    enemy_ships = [Frigate(), Frigate()]
+    enemy_ships = [Battleship(), Cruiser(), Destroyer(), Destroyer(), Frigate()]
     enemy_board.add_ships(enemy_ships)
 
     print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
