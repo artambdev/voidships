@@ -7,6 +7,13 @@ class Ship():
     def __init__(self, length):
         self.length = length
 
+class Frigate(Ship):
+    """
+    Frigate: smallest ship, size 2
+    """
+    def __init__(self):
+        Ship.__init__(self, 2)
+
 class GridSpace():
     """
     Class representing a single space in the board
@@ -130,13 +137,13 @@ class Board:
         return good_targets[0]
 
     
-    def add_ships(self, num_ships):
+    def add_ships(self, ships):
         """
         Adds a specified number of two-tile ships
         to random spaces in the board
         """
         
-        for i in range(num_ships):
+        for ship in ships:
             all_spaces = self.get_all_spaces()
             for space in all_spaces.copy():
                 if space.ship != None:
@@ -151,9 +158,9 @@ class Board:
                 trying_to_place = True
                 while trying_to_place:
                     direction = orientations.pop(0)
-                    clear = self.check_clear(picked_space, 3, direction == "down")
+                    clear = self.check_clear(picked_space, ship.length, direction == "down")
                     if clear:
-                        self.place_ship(picked_space, 3, direction == "down")
+                        self.place_ship(picked_space, ship.length, direction == "down")
                         trying_to_place = False
                         picked = True
                     if len(orientations) == 0:
@@ -211,9 +218,10 @@ def begin_battle(player_name):
     player_board = Board("player", 7, 6)
     enemy_board = Board("enemy", 7, 6)
 
-    player_ships = []
-    player_board.add_ships(3)
-    enemy_board.add_ships(3)
+    player_ships = [Frigate(), Frigate()]
+    player_board.add_ships(player_ships)
+    enemy_ships = [Frigate(), Frigate()]
+    enemy_board.add_ships(enemy_ships)
 
     print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
     player_board.print_board()
