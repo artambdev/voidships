@@ -87,12 +87,16 @@ class Board:
         """
         # Two spaces for the blank top-left corner
         output = "  "
+        if (self.length >= 10):
+            output += " "
         for i in range(self.length):
             output += str(i + 1) + " "
         output += "\n"
         column_num = 1
         for column in self.grid:
             output += str(column_num) + " "
+            if (self.length >= 10 and column_num < 10):
+                output += " "
             for space in column:
                 if space.ship == "ship" and space.shot_at:
                     output += "# "
