@@ -1,5 +1,12 @@
 import random
 
+class Ship():
+    """
+    Class representing a type of ship
+    """
+    def __init__(self, length):
+        self.length = length
+
 class GridSpace():
     """
     Class representing a single space in the board
@@ -204,6 +211,7 @@ def begin_battle(player_name):
     player_board = Board("player", 7, 6)
     enemy_board = Board("enemy", 7, 6)
 
+    player_ships = []
     player_board.add_ships(3)
     enemy_board.add_ships(3)
 
