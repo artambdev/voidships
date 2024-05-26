@@ -14,6 +14,27 @@ class Frigate(Ship):
     def __init__(self):
         Ship.__init__(self, 2)
 
+class Destroyer(Ship):
+    """
+    Destroyer: size 3
+    """
+    def __init__(self):
+        Ship.__init__(self, 3)
+
+class Cruiser(Ship):
+    """
+    Cruiser: size 4
+    """
+    def __init__(self):
+        Ship.__init__(self, 4)
+
+class Battleship(Ship):
+    """
+    Battleship: largest ship, size 5
+    """
+    def __init__(self):
+        Ship.__init__(self, 5)
+
 class GridSpace():
     """
     Class representing a single space in the board
