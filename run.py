@@ -85,7 +85,6 @@ class Board:
         @ indicates functional ships
         # indicates destroyed ships
         """
-        # Two spaces for the blank top-left corner
         output = "  "
         if (self.length >= 10):
             output += " "
@@ -100,9 +99,7 @@ class Board:
             for space in column:
                 if space.ship == "ship" and space.shot_at:
                     output += "# "
-                # TODO: this is debug!!!! REMOVE THIS
                 elif space.ship == "ship" and self.side == "player":
-                #elif space.ship == "ship":
                     output += "@ "
                 elif space.shot_at:
                     output += "X "
@@ -124,7 +121,7 @@ class Board:
     
     def pick_target(self):
         """
-        Picks a suitable target space to shoot at
+        For the AI enemy: picks a suitable target space to shoot at
         If any destroyed ship space has adjacent unknown spaces, pick one of those
         Otherwise, pick a random space to probe
         """
@@ -133,28 +130,21 @@ class Board:
 
         found_ship_space = False
         for space in all_spaces:
-            # Only spaces that have already been confirmed has having had a ship
             if space.ship == None or space.shot_at == False:
                 continue
-            # Left
             if space.x != 0:
                 good_targets.append(self.grid[space.x - 1][space.y])
-            # Up    
             if space.y != 0:
                 good_targets.append(self.grid[space.x][space.y - 1])
-            # Right
             if space.x < self.length - 1:
                 good_targets.append(self.grid[space.x + 1][space.y])
-            # Down
             if space.y < self.width - 1:
                 good_targets.append(self.grid[space.x][space.y + 1])
         
-        # Don't fire at adjacent spaces if we already have done so
         for space in good_targets.copy():
             if space.shot_at:
                 good_targets.remove(space)
     
-        # No adjacent spaces to ships? Just pick a random space instead
         if len(good_targets) == 0:
             for space in all_spaces:
                 good_targets.append(space)
@@ -164,7 +154,7 @@ class Board:
     
     def add_ships(self, ships):
         """
-        Adds a specified number of two-tile ships
+        Adds a specified list of ships
         to random spaces in the board
         """
         
@@ -177,7 +167,6 @@ class Board:
             while not picked:
                 random.shuffle(all_spaces)
                 picked_space = all_spaces.pop(0)
-                # Up/Down and Left/Right are the same thing, so just assume Down or Right
                 orientations = ["down", "right"]
                 random.shuffle(orientations)
                 trying_to_place = True
@@ -194,12 +183,6 @@ class Board:
     def check_clear(self, from_space, spaces, down):
         x = from_space.x
         y = from_space.y
-        #self.grid[x][y].ship = "ship"
-        #self.print_board()
-        #print(down)
-        #print(x)
-        #print(y)
-        #print("\n")
         if down:
             for i in range(spaces):
                 if y + i > self.length - 1:
@@ -316,7 +299,6 @@ def begin():
     while True:
         inputed_name = input("Enter your name, Captain: \n")
         if inputed_name.isspace() == False:
-            # changes e.g "jack tannen" or "JACK TANNEN" to just "Jack Tannen"
             inputed_name = inputed_name.title()
             print(f"\nWelcome aboard, Captain {inputed_name}.")
             begin_battle(inputed_name)
