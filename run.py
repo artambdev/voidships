@@ -1,41 +1,7 @@
 import random
+import ships
 import gspread
 from google.oauth2.service_account import Credentials
-
-class Ship():
-    """
-    Class representing a type of ship
-    """
-    def __init__(self, length):
-        self.length = length
-
-class Frigate(Ship):
-    """
-    Frigate: smallest ship, size 2
-    """
-    def __init__(self):
-        Ship.__init__(self, 2)
-
-class Destroyer(Ship):
-    """
-    Destroyer: size 3
-    """
-    def __init__(self):
-        Ship.__init__(self, 3)
-
-class Cruiser(Ship):
-    """
-    Cruiser: size 4
-    """
-    def __init__(self):
-        Ship.__init__(self, 4)
-
-class Battleship(Ship):
-    """
-    Battleship: largest ship, size 5
-    """
-    def __init__(self):
-        Ship.__init__(self, 5)
 
 class GridSpace():
     """
@@ -228,9 +194,9 @@ def begin_battle(player_name):
     player_board = Board("player", 10, 10)
     enemy_board = Board("enemy", 10, 10)
 
-    player_ships = [Battleship(), Cruiser(), Destroyer(), Destroyer(), Frigate()]
+    player_ships = [ships.Battleship(), ships.Cruiser(), ships.Destroyer(), ships.Destroyer(), ships.Frigate()]
     player_board.add_ships(player_ships)
-    enemy_ships = [Battleship(), Cruiser(), Destroyer(), Destroyer(), Frigate()]
+    enemy_ships = [ships.Battleship(), ships.Cruiser(), ships.Destroyer(), ships.Destroyer(), ships.Frigate()]
     enemy_board.add_ships(enemy_ships)
 
     print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
