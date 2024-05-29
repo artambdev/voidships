@@ -295,14 +295,14 @@ def match_password(given_username, given_password):
     users = SHEET.worksheet("users")
     usernames = users.col_values(1)
     passwords = users.col_values(2)
-    for i in range (len(usernames)):
+    for i in range(1, len(usernames)):
         username = usernames[i]
         if given_username != username:
             continue
         password = passwords[i]
-        if given_username != password:
+        if given_password != password:
             continue
-        return True    
+        return True
     return False
 
 def try_login():
@@ -317,6 +317,9 @@ def try_login():
         if match_password(given_username, given_password):
             print("You're in!")
             pre_battle()
+        else:
+            print("Password incorrect.")
+            ask_account()    
     else:
         print("This username does not exist.")
         ask_account()
@@ -354,7 +357,6 @@ def begin():
     """
     print("- WELCOME TO VOIDSHIPS -\n\nIt is the far flung future.\nAdvanced stealth technology results in most battles being fought by invisible 'voidships' blind-firing into unknown space.\nYou are the commander of a pirate outfit, raiding imperial patrols for fortune and glory.")
 
-    try_signup()
+    ask_account()
         
-
 begin()
