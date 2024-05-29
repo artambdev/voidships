@@ -3,6 +3,18 @@ import ships
 import gspread
 from google.oauth2.service_account import Credentials
 
+# Google Spreadsheets for login verification
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+]
+
+CREDS = Credentials.from_service_account_file("creds.json")
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open("voidships_users")
+
 class GridSpace():
     """
     Class representing a single space in the board
@@ -149,6 +161,11 @@ class Board:
                         trying_to_place = False
     
     def check_clear(self, from_space, spaces, down):
+        """
+        Check if a ship of defined length of spaces could be
+        placed in the specified space
+        Must be able to fit in the board and not intersect any other ships
+        """
         x = from_space.x
         y = from_space.y
         if down:
@@ -167,6 +184,10 @@ class Board:
             return True
 
     def place_ship(self, from_space, length, down):
+        """
+        Sets spaces as a ship starting from the specified space
+        Does not check if the spaces are valid - use check_clear first!
+        """
         x = from_space.x
         y = from_space.y
         if down:
@@ -207,33 +228,31 @@ def begin_battle(player_name):
 
     still_playing = True
     while still_playing:
-        player_choice = input("Your command: \n")
-        if player_choice.startswith("fire"):
-            fire_command = player_choice.removeprefix("fire ")
-            fire_coords = fire_command.split()
-            try:
-                [int(coord) for coord in fire_coords]
-                if len(fire_coords) != 2:
+        fire_command = input("Your command: \n")
+        fire_coords = fire_command.split()
+        try:
+            [int(coord) for coord in fire_coords]
+            if len(fire_coords) != 2:
+                raise ValueError(
+                    f"FIRE command must be followed by two numbers (column number, a space, then row number)\ne.g 'fire 4 2'"
+                )
+            for coord in fire_coords:
+                if int(coord) < 1:
                     raise ValueError(
-                        f"FIRE command must be followed by two numbers (column number, a space, then row number)\ne.g 'fire 4 2'"
+                        f"FIRE command coordinates must be positive numbers (number of column then row to target)"
                     )
-                for coord in fire_coords:
-                    if int(coord) < 1:
-                        raise ValueError(
-                            f"FIRE command coordinates must be positive numbers (number of column then row to target)"
-                        )
-                if int(fire_coords[0]) > enemy_board.length:
-                    raise ValueError(
-                        f"Too far right! You picked column {fire_coords[0]}, furthest is column {enemy_board.length}"
-                    )
-                if int(fire_coords[1]) > enemy_board.width:
-                    raise ValueError(
-                        f"Too far down! You picked row {fire_coords[1]}, lowest is row {enemy_board.width}"
-                    )
-                hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
-                hit_space.get_hit()
-            except ValueError as e:
-                print(f"Invalid co-ordinates: {e}.\n")
+            if int(fire_coords[0]) > enemy_board.length:
+                raise ValueError(
+                    f"Too far right! You picked column {fire_coords[0]}, furthest is column {enemy_board.length}"
+                )
+            if int(fire_coords[1]) > enemy_board.width:
+                raise ValueError(
+                    f"Too far down! You picked row {fire_coords[1]}, lowest is row {enemy_board.width}"
+                )
+            hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
+            hit_space.get_hit()
+        except ValueError as e:
+            print(f"Invalid co-ordinates: {e}.\n")
         
         player_won = check_win(enemy_board)
         if player_won:
@@ -256,22 +275,77 @@ def begin_battle(player_name):
 
         print(f"\n- IMPERIAL PATROL -")
         enemy_board.print_board()
-    
-            
-def begin():
-    """
-    Initial sequence: welcome the player and ask for their name
-    """
-    print("- WELCOME TO VOIDSHIPS -\n\nIt is the far flung future.\nAdvanced stealth technology results in most battles being fought by invisible 'voidships' blind-firing into unknown space.\nYou are the commander of a pirate outfit, raiding imperial patrols for fortune and glory.")
 
+def username_exists(username):
+    """
+    Returns true if our database already has a user with the given username
+    Returns false otherwise
+    """
+    users = SHEET.worksheet("users")
+    usernames = users.col_values(1)
+    for existing in usernames:
+        if existing == username:
+            return True
+    return False
+
+def match_password(given_username, given_password):
+    """
+    Checks if a given username and password are a valid combination
+    """
+    users = SHEET.worksheet("users")
+    usernames = users.col_values(1)
+    passwords = users.col_values(2)
+    for i in range (len(usernames))
+        username = usernames[i]
+        if given_username != username:
+            continue
+        password = passwords[i]
+        if given_username != password:
+            continue
+        return True    
+    return False
+
+def try_login():
+    given_username = input("Please enter your username: \n")
+    if username_exists(given_username):
+        given_password = input("Please enter your password: \n")
+        if match_password(given_username, given_password):
+
+    else:
+        print("This username does not exist.")
+        ask_account()
+
+def ask_account():
+    print("Do you have an existing account?")
+    response = input("Y/N: \n")
+    if response == "Y":
+        try_login()
+    elif response == "N":
+        print("We'll sign you up now!")
+        while True:       
+            given_username = input("Please enter your desired username: \n")
+
+def pre_battle():
+    """
+    Ask for the player's name and start the battle
+    """
     while True:
         inputed_name = input("Enter your name, Captain: \n")
         if inputed_name.isspace() == False:
             inputed_name = inputed_name.title()
             print(f"\nWelcome aboard, Captain {inputed_name}.")
-            begin_battle(inputed_name)
             break
         else:
             print("No name entered.")
+    begin_battle(inputed_name)        
+            
+def begin():
+    """
+    Initial sequence: welcome the player and begin the login/signup process
+    """
+    print("- WELCOME TO VOIDSHIPS -\n\nIt is the far flung future.\nAdvanced stealth technology results in most battles being fought by invisible 'voidships' blind-firing into unknown space.\nYou are the commander of a pirate outfit, raiding imperial patrols for fortune and glory.")
+
+    try_signup()
+        
 
 begin()
