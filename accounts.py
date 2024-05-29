@@ -49,8 +49,8 @@ def try_login():
     On failure, go back to asking for login/signup
     """
     given_username = input("Please enter your username: \n")
+    given_password = input("Please enter your password: \n")
     if username_exists(given_username):
-        given_password = input("Please enter your password: \n")
         if match_password(given_username, given_password):
             print("You're in!")
         else:
