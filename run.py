@@ -295,7 +295,7 @@ def match_password(given_username, given_password):
     users = SHEET.worksheet("users")
     usernames = users.col_values(1)
     passwords = users.col_values(2)
-    for i in range (len(usernames))
+    for i in range (len(usernames)):
         username = usernames[i]
         if given_username != username:
             continue
