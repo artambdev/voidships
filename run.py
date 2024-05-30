@@ -2,6 +2,8 @@ import random
 import ships
 import accounts
 
+from colorama import Fore
+
 class GridSpace():
     """
     Class representing a single space in the board
@@ -194,6 +196,13 @@ def check_win(board):
             return False
     return True
 
+def print_boards(player_name, player_board, enemy_board):
+    print(f"{Fore.CYAN}\n- {player_name.upper()}'S PIRATE RAIDERS -")
+    player_board.print_board()
+
+    print(f"{Fore.RED}\n- IMPERIAL PATROL -")
+    enemy_board.print_board()
+
 def begin_battle(player_name):
     """
     Contains the main game logic
@@ -207,15 +216,11 @@ def begin_battle(player_name):
     enemy_ships = [ships.Battleship(), ships.Cruiser(), ships.Destroyer(), ships.Destroyer(), ships.Frigate()]
     enemy_board.add_ships(enemy_ships)
 
-    print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
-    player_board.print_board()
-
-    print(f"\n- IMPERIAL PATROL -")
-    enemy_board.print_board()
+    print_boards(player_name, player_board, enemy_board)
 
     still_playing = True
     while still_playing:
-        fire_command = input("Your command: \n")
+        fire_command = input(Fore.WHITE + "Your command: \n")
         fire_coords = fire_command.split()
         try:
             [int(coord) for coord in fire_coords]
@@ -239,29 +244,25 @@ def begin_battle(player_name):
             hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
             hit_space.get_hit()
         except ValueError as e:
-            print(f"Invalid co-ordinates: {e}.\n")
+            print(f"{Fore.WHITE}Invalid co-ordinates: {e}.\n")
         
         player_won = check_win(enemy_board)
         if player_won:
             still_playing = False
-            print(f"- VICTORY! -")
+            print(f"{Fore.GREEN}- VICTORY! -")
             break
         
         enemy_picked_space = player_board.pick_target()
-        print(f"\nThe enemy fired at: ({str(enemy_picked_space.x)}, {str(enemy_picked_space.y)})")
+        print(f"{Fore.RED}\nThe enemy fired at: ({str(enemy_picked_space.x)}, {str(enemy_picked_space.y)})")
         enemy_picked_space.get_hit()
 
         enemy_won = check_win(player_board)
         if enemy_won:
             still_playing = False
-            print(f"- DEFEAT -")
+            print(f"{Fore.RED}- DEFEAT -")
             break
-
-        print(f"\n- {player_name.upper()}'S PIRATE RAIDERS -")
-        player_board.print_board()
-
-        print(f"\n- IMPERIAL PATROL -")
-        enemy_board.print_board()
+        
+        print_boards(player_name, player_board, enemy_board)
 
 def pre_battle():
     """
