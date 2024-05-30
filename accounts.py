@@ -1,6 +1,8 @@
 import gspread
 from google.oauth2.service_account import Credentials
 
+from colorama import Fore
+
 # Google Spreadsheets for login verification
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -59,12 +61,12 @@ def try_login():
     given_password = input("Please enter your password: \n")
     if username_exists(given_username):
         if match_password(given_username, given_password):
-            print("You're in!\n")
+            print(Fore.GREEN + "You're in!\n")
         else:
-            print("Password incorrect.")
+            print(Fore.RED + "Password incorrect.")
             ask_account()  
     else:
-        print("This username does not exist.")
+        print(Fore.RED "This username does not exist.")
         ask_account()
 
 def try_signup():
@@ -75,7 +77,7 @@ def try_signup():
     """
     print("Please enter your desired username (at least 3 characters) and password (at least 5 characters).")
     while True:
-        given_username = str(input("Username: \n"))
+        given_username = str(input(Fore.YELLOW + "Username: \n"))
         given_password = str(input("Password: \n"))
         try:
             if len(given_username) < 3:
@@ -91,10 +93,10 @@ def try_signup():
                     f"This username is already taken."
                 )
             add_user(given_username, given_password)
-            print("You're all signed up!\n")  
+            print(Fore.GREEN + "You're all signed up!\n")  
             break    
         except ValueError as e:
-            print(f"Error: {e}. Please try again.")
+            print(f"{Fore.RED}Error: {e}. Please try again.")
 
 def ask_account():
     """
