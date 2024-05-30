@@ -57,8 +57,8 @@ def try_login():
     Username and password must match
     On failure, go back to asking for login/signup
     """
-    given_username = input("Please enter your username: \n")
-    given_password = input("Please enter your password: \n")
+    given_username = input(Fore.YELLOW + "Please enter your username: \n")
+    given_password = input(Fore.YELLOW + "Please enter your password: \n")
     if username_exists(given_username):
         if match_password(given_username, given_password):
             print(Fore.GREEN + "You're in!\n")
@@ -66,7 +66,7 @@ def try_login():
             print(Fore.RED + "Password incorrect.")
             ask_account()  
     else:
-        print(Fore.RED "This username does not exist.")
+        print(Fore.RED + "This username does not exist.")
         ask_account()
 
 def try_signup():
@@ -75,10 +75,10 @@ def try_signup():
     Keep asking until a username is given that isn't already taken
     Both username and password must fit a given length as well
     """
-    print("Please enter your desired username (at least 3 characters) and password (at least 5 characters).")
+    print(Fore.YELLOW + "Please enter your desired username (at least 3 characters) and password (at least 5 characters).")
     while True:
         given_username = str(input(Fore.YELLOW + "Username: \n"))
-        given_password = str(input("Password: \n"))
+        given_password = str(input(Fore.YELLOW + "Password: \n"))
         try:
             if len(given_username) < 3:
                 raise ValueError(
@@ -102,9 +102,9 @@ def ask_account():
     """
     Ask for either login or signup
     """
-    print("Do you have an existing account?")
+    print(Fore.YELLOW + "Do you have an existing account?")
     while True:
-        response = input("Y/N: \n").lower()
+        response = input(Fore.YELLOW + "Y/N: \n").lower()
         if response == "y":
             try_login()
             break
@@ -112,4 +112,4 @@ def ask_account():
             try_signup()
             break
         else:
-            print("Please enter Y for yes or N for no.")
+            print(Fore.RED + "Please enter Y for yes or N for no.")
