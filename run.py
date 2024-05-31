@@ -285,9 +285,8 @@ def print_opening():
     """
     Opening text: a welcome, logo and brief primer
     """
-    print(Fore.MAGENTA + "                       WELCOME")
+    print(Fore.MAGENTA + "                  WELCOME")
     print("                         TO")
-    #print("                         VOIDSHIPS")
     print(r"""
          _   _  _____ ___________  _____ _   _ ___________  _____ 
         | | | ||  _  |_   _|  _  \/  ___| | | |_   _| ___ \/  ___|
@@ -296,12 +295,6 @@ def print_opening():
         \ \_/ /\ \_/ /_| |_| |/ / /\__/ / | | |_| |_| |    /\__/ /
          \___/  \___/ \___/|___/  \____/\_| |_/\___/\_|    \____/ 
     """)
-    #print(r" _   _  _____ ___________  _____ _   _ ___________  _____ ")
-    #print(r"| | | ||  _  |_   _|  _  \/  ___| | | |_   _| ___ \/  ___|")
-    #print(r"| | | || | | | | | | | | |\ `--.| |_| | | | | |_/ /\ `--. ")
-    #print(r"| | | || | | | | | | | | | `--. \  _  | | | |  __/  `--. \\")
-    #print(r"\ \_/ /\ \_/ /_| |_| |/ / /\__/ / | | |_| |_| |    /\__/ /")
-    #print(r" \___/  \___/ \___/|___/  \____/\_| |_/\___/\_|    \____/ ")
     print(Fore.CYAN + "\nIt is the far flung future.")
     print("Advanced stealth technology results in most battles being fought")
     print("by invisible 'voidships' blind-firing into unknown space.")
