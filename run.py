@@ -287,6 +287,15 @@ def print_opening():
     """
     print(Fore.MAGENTA + "                       WELCOME")
     print("                         TO")
+    #print("                         VOIDSHIPS")
+    print(r"""
+         _   _  _____ ___________  _____ _   _ ___________  _____ 
+        | | | ||  _  |_   _|  _  \/  ___| | | |_   _| ___ \/  ___|
+        | | | || | | | | | | | | |\ `--.| |_| | | | | |_/ /\ `--. 
+        | | | || | | | | | | | | | `--. \  _  | | | |  __/  `--. \
+        \ \_/ /\ \_/ /_| |_| |/ / /\__/ / | | |_| |_| |    /\__/ /
+         \___/  \___/ \___/|___/  \____/\_| |_/\___/\_|    \____/ 
+    """)
     #print(r" _   _  _____ ___________  _____ _   _ ___________  _____ ")
     #print(r"| | | ||  _  |_   _|  _  \/  ___| | | |_   _| ___ \/  ___|")
     #print(r"| | | || | | | | | | | | |\ `--.| |_| | | | | |_/ /\ `--. ")
@@ -294,8 +303,10 @@ def print_opening():
     #print(r"\ \_/ /\ \_/ /_| |_| |/ / /\__/ / | | |_| |_| |    /\__/ /")
     #print(r" \___/  \___/ \___/|___/  \____/\_| |_/\___/\_|    \____/ ")
     print(Fore.CYAN + "\nIt is the far flung future.")
-    print("Advanced stealth technology results in most battles being fought by invisible 'voidships' blind-firing into unknown space.")
-    print("You are the commander of a pirate outfit, raiding imperial patrols for fortune and glory.\n")
+    print("Advanced stealth technology results in most battles being fought")
+    print("by invisible 'voidships' blind-firing into unknown space.")
+    print("You are the commander of a pirate outfit, raiding imperial patrols")
+    print("for fortune and glory.\n")
 
 def begin():
     """
