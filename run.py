@@ -197,6 +197,9 @@ def check_win(board):
     return True
 
 def print_boards(player_name, player_board, enemy_board):
+    """
+    Prints two boards in standard format
+    """
     print(f"{Fore.CYAN}\n- {player_name.upper()}'S PIRATE RAIDERS -")
     player_board.print_board()
 
@@ -277,13 +280,28 @@ def pre_battle():
         else:
             print("No name entered.")
     begin_battle(inputed_name)        
-            
+
+def print_opening():
+    """
+    Opening text: a welcome, logo and brief primer
+    """
+    print(Fore.MAGENTA + "                       WELCOME")
+    print("                         TO")
+    print(r" _   _  _____ ___________  _____ _   _ ___________  _____ ")
+    print(r"| | | ||  _  |_   _|  _  \/  ___| | | |_   _| ___ \/  ___|")
+    print(r"| | | || | | | | | | | | |\ `--.| |_| | | | | |_/ /\ `--. ")
+    print(r"| | | || | | | | | | | | | `--. \  _  | | | |  __/  `--. \")
+    print(r"\ \_/ /\ \_/ /_| |_| |/ / /\__/ / | | |_| |_| |    /\__/ /")
+    print(r" \___/  \___/ \___/|___/  \____/\_| |_/\___/\_|    \____/ ")
+    print(Fore.CYAN + "\nIt is the far flung future.")
+    print("Advanced stealth technology results in most battles being fought by invisible 'voidships' blind-firing into unknown space.")
+    print("You are the commander of a pirate outfit, raiding imperial patrols for fortune and glory.\n")
+
 def begin():
     """
     Initial sequence: welcome the player and begin the login/signup process
     """
-    print("- WELCOME TO VOIDSHIPS -\n\nIt is the far flung future.\nAdvanced stealth technology results in most battles being fought by invisible 'voidships' blind-firing into unknown space.\nYou are the commander of a pirate outfit, raiding imperial patrols for fortune and glory.")
-
+    print_opening()
     accounts.ask_account()
     pre_battle()
         
