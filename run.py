@@ -271,7 +271,7 @@ def begin_battle(player_name):
             break
         
         enemy_picked_space = player_board.pick_target()
-        print(f"{Fore.RED}\nThe enemy fired at: ({str(enemy_picked_space.x)}, {str(enemy_picked_space.y)})")
+        print(f"{Fore.RED}\nThe enemy fired at: ({str(enemy_picked_space.x + 1)}, {str(enemy_picked_space.y + 1)})")
         time.sleep(0.5)
         enemy_picked_space.get_hit()
         time.sleep(0.5)
