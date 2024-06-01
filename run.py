@@ -35,6 +35,9 @@ class Board:
     Contains a list of grid columns, which are themselves lists of spaces
     """
     def __init__(self, side, length, width):
+        """
+        Initialize, including setting up the grid itself
+        """
         self.side = side
         self.length = length
         self.width = width
@@ -199,6 +202,15 @@ def check_win(board):
             return False
     return True
 
+def enemy_action(player_board):
+    """
+    Enemy shoots at a player grid space, with text report
+    """
+    enemy_picked_space = player_board.pick_target()
+    print(f"{Fore.RED}\nThe enemy fired at: ({str(enemy_picked_space.x + 1)}, {str(enemy_picked_space.y + 1)})")
+    time.sleep(0.5)
+    enemy_picked_space.get_hit()
+
 def ask_for_shot(enemy_board):
     """
     Ask for a player's fire command
@@ -303,10 +315,7 @@ def begin_battle(player_name):
             print_victory()
             break
         
-        enemy_picked_space = player_board.pick_target()
-        print(f"{Fore.RED}\nThe enemy fired at: ({str(enemy_picked_space.x + 1)}, {str(enemy_picked_space.y + 1)})")
-        time.sleep(0.5)
-        enemy_picked_space.get_hit()
+        enemy_action(player_board)
         time.sleep(0.5)
 
         enemy_won = check_win(player_board)
