@@ -1,5 +1,5 @@
 import random
-import ships
+import ship_types
 import accounts
 
 from colorama import Fore
@@ -45,6 +45,8 @@ class Board:
                 new_space = GridSpace(i, j)
                 new_column.append(new_space)
             self.grid.append(new_column)
+        
+        self.add_ships()
     
     def print_board(self):
         """
@@ -121,12 +123,12 @@ class Board:
         return good_targets[0]
 
     
-    def add_ships(self, ships):
+    def add_ships(self):
         """
         Adds a specified list of ships
         to random spaces in the board
         """
-        
+        ships = [ship_types.Battleship(), ship_types.Cruiser(), ship_types.Destroyer(), ship_types.Destroyer(), ship_types.Frigate()]
         for ship in ships:
             all_spaces = self.get_all_spaces()
             for space in all_spaces.copy():
@@ -196,33 +198,9 @@ def check_win(board):
             return False
     return True
 
-def print_boards(player_name, player_board, enemy_board):
-    """
-    Prints two boards in standard format
-    """
-    print(f"{Fore.CYAN}\n- {player_name.upper()}'S PIRATE RAIDERS -")
-    player_board.print_board()
-
-    print(f"{Fore.RED}\n- IMPERIAL PATROL -")
-    enemy_board.print_board()
-
-def begin_battle(player_name):
-    """
-    Contains the main game logic
-    Set up the match, then continuously ask for and parse player commands until someone has won
-    """
-    player_board = Board("player", 10, 10)
-    enemy_board = Board("enemy", 10, 10)
-
-    player_ships = [ships.Battleship(), ships.Cruiser(), ships.Destroyer(), ships.Destroyer(), ships.Frigate()]
-    player_board.add_ships(player_ships)
-    enemy_ships = [ships.Battleship(), ships.Cruiser(), ships.Destroyer(), ships.Destroyer(), ships.Frigate()]
-    enemy_board.add_ships(enemy_ships)
-
-    print_boards(player_name, player_board, enemy_board)
-
-    still_playing = True
-    while still_playing:
+def ask_for_shot(enemy_board):
+    waiting_for_command = True
+    while waiting_for_command:
         fire_command = input(Fore.WHITE + "Your command: \n")
         fire_coords = fire_command.split()
         try:
@@ -246,8 +224,33 @@ def begin_battle(player_name):
                 )
             hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
             hit_space.get_hit()
+            waiting_for_command = False
         except ValueError as e:
             print(f"{Fore.WHITE}Invalid co-ordinates: {e}.\n")
+
+def print_boards(player_name, player_board, enemy_board):
+    """
+    Prints two boards in standard format
+    """
+    print(f"{Fore.CYAN}\n- {player_name.upper()}'S PIRATE RAIDERS -")
+    player_board.print_board()
+
+    print(f"{Fore.RED}\n- IMPERIAL PATROL -")
+    enemy_board.print_board()
+
+def begin_battle(player_name):
+    """
+    Contains the main game logic
+    Set up the match, then continuously ask for and parse player commands until someone has won
+    """
+    player_board = Board("player", 10, 10)
+    enemy_board = Board("enemy", 10, 10)
+
+    print_boards(player_name, player_board, enemy_board)
+
+    still_playing = True
+    while still_playing:
+        ask_for_shot(enemy_board)
         
         player_won = check_win(enemy_board)
         if player_won:
