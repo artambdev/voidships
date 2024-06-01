@@ -1,4 +1,5 @@
 import random
+import time
 import ship_types
 import accounts
 
@@ -227,6 +228,7 @@ def ask_for_shot(enemy_board):
             waiting_for_command = False
         except ValueError as e:
             print(f"{Fore.WHITE}Invalid co-ordinates: {e}.\n")
+            time.sleep(1)
 
 def print_boards(player_name, player_board, enemy_board):
     """
@@ -234,6 +236,8 @@ def print_boards(player_name, player_board, enemy_board):
     """
     print(f"{Fore.CYAN}\n- {player_name.upper()}'S PIRATE RAIDERS -")
     player_board.print_board()
+
+    time.sleep(1)
 
     print(f"{Fore.RED}\n- IMPERIAL PATROL -")
     enemy_board.print_board()
@@ -246,13 +250,19 @@ def begin_battle(player_name):
     player_board = Board("player", 10, 10)
     enemy_board = Board("enemy", 10, 10)
 
+    time.sleep(0.5)
+
     print_boards(player_name, player_board, enemy_board)
+
+    time.sleep(0.25)
 
     print(Fore.WHITE + "To fire: enter a column number, then a space, then a row number (e.g '2 1' to fire at column 2, row 1)")
 
     still_playing = True
     while still_playing:
         ask_for_shot(enemy_board)
+
+        time.sleep(0.5)
         
         player_won = check_win(enemy_board)
         if player_won:
@@ -262,13 +272,17 @@ def begin_battle(player_name):
         
         enemy_picked_space = player_board.pick_target()
         print(f"{Fore.RED}\nThe enemy fired at: ({str(enemy_picked_space.x)}, {str(enemy_picked_space.y)})")
+        time.sleep(0.5)
         enemy_picked_space.get_hit()
+        time.sleep(0.5)
 
         enemy_won = check_win(player_board)
         if enemy_won:
             still_playing = False
             print(f"{Fore.RED}- DEFEAT -")
             break
+
+        time.sleep(1)
         
         print_boards(player_name, player_board, enemy_board)
 
