@@ -61,7 +61,7 @@ def try_login():
     given_password = input(Fore.YELLOW + "Please enter your password: \n")
     if username_exists(given_username):
         if match_password(given_username, given_password):
-            print(Fore.GREEN + "You're in!\n")
+            print(Fore.GREEN + "\nYou're in!\n")
         else:
             print(Fore.RED + "Password incorrect.")
             ask_account()  
@@ -93,7 +93,7 @@ def try_signup():
                     f"This username is already taken."
                 )
             add_user(given_username, given_password)
-            print(Fore.GREEN + "You're all signed up!\n")  
+            print(Fore.GREEN + "\nYou're all signed up!\n")  
             break    
         except ValueError as e:
             print(f"{Fore.RED}Error: {e}. Please try again.")

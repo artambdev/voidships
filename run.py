@@ -200,6 +200,11 @@ def check_win(board):
     return True
 
 def ask_for_shot(enemy_board):
+    """
+    Ask for a player's fire command
+    Make sure it's a valid command: if not,
+    tell them why and ask again until they provide a valid one
+    """
     waiting_for_command = True
     while waiting_for_command:
         fire_command = input(Fore.WHITE + "Your command: \n")
@@ -242,6 +247,34 @@ def print_boards(player_name, player_board, enemy_board):
     print(f"{Fore.RED}\n- IMPERIAL PATROL -")
     enemy_board.print_board()
 
+def print_victory():
+    """
+    Show a large Victory! screen
+    """
+    print(Fore.GREEN)
+    print(r""" _   _  _        _                        _ 
+| | | |(_)      | |                      | |
+| | | | _   ___ | |_  ___   _ __  _   _  | |
+| | | || | / __|| __|/ _ \ | '__|| | | | | |
+\ \_/ /| || (__ | |_| (_) || |   | |_| | |_|
+ \___/ |_| \___| \__|\___/ |_|    \__, | (_)
+                                   __/ |    
+                                  |___/     """)
+
+def print_defeat():
+    """
+    Show a large Defeat... screen
+    """
+    print(Fore.RED)
+    print(r"""______        __              _            
+|  _  \      / _|            | |           
+| | | | ___ | |_  ___   __ _ | |_          
+| | | |/ _ \|  _|/ _ \ / _` || __|         
+| |/ /|  __/| | |  __/| (_| || |_  _  _  _ 
+|___/  \___||_|  \___| \__,_| \__|(_)(_)(_)
+                                           
+                                           """)
+
 def begin_battle(player_name):
     """
     Contains the main game logic
@@ -267,7 +300,7 @@ def begin_battle(player_name):
         player_won = check_win(enemy_board)
         if player_won:
             still_playing = False
-            print(f"{Fore.GREEN}- VICTORY! -")
+            print_victory()
             break
         
         enemy_picked_space = player_board.pick_target()
@@ -279,7 +312,7 @@ def begin_battle(player_name):
         enemy_won = check_win(player_board)
         if enemy_won:
             still_playing = False
-            print(f"{Fore.RED}- DEFEAT -")
+            print_defeat()
             break
 
         time.sleep(1)
@@ -298,14 +331,16 @@ def pre_battle():
             break
         else:
             print("No name entered.")
-    begin_battle(inputed_name)        
+    begin_battle(inputed_name)
 
 def print_opening():
     """
     Opening text: a welcome, logo and brief primer
     """
     print(Fore.MAGENTA + "                  WELCOME")
+    time.sleep(0.5)
     print("                         TO")
+    time.sleep(0.5)
     print(r"""
          _   _  _____ ___________  _____ _   _ ___________  _____ 
         | | | ||  _  |_   _|  _  \/  ___| | | |_   _| ___ \/  ___|
@@ -314,9 +349,12 @@ def print_opening():
         \ \_/ /\ \_/ /_| |_| |/ / /\__/ / | | |_| |_| |    /\__/ /
          \___/  \___/ \___/|___/  \____/\_| |_/\___/\_|    \____/ 
     """)
+    time.sleep(1.5)
     print(Fore.CYAN + "\nIt is the far flung future.")
+    time.sleep(0.5)
     print("Advanced stealth technology results in most battles being fought")
     print("by invisible 'voidships' blind-firing into unknown space.")
+    time.sleep(0.5)
     print("You are the commander of a pirate outfit, raiding imperial patrols")
     print("for fortune and glory.\n")
 
@@ -324,8 +362,11 @@ def begin():
     """
     Initial sequence: welcome the player and begin the login/signup process
     """
+    print_victory()
     print_opening()
+    time.sleep(0.5)
     accounts.ask_account()
+    time.sleep(0.5)
     pre_battle()
         
 begin()
