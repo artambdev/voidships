@@ -207,12 +207,12 @@ def ask_for_shot(enemy_board):
             [int(coord) for coord in fire_coords]
             if len(fire_coords) != 2:
                 raise ValueError(
-                    f"FIRE command must be followed by two numbers (column number, a space, then row number)\ne.g 'fire 4 2'"
+                    f"Fire command must be followed by two numbers (column number, a space, then row number)\ne.g 'fire 4 2'"
                 )
             for coord in fire_coords:
                 if int(coord) < 1:
                     raise ValueError(
-                        f"FIRE command coordinates must be positive numbers (number of column then row to target)"
+                        f"Fire command coordinates must be positive numbers (number of column then row to target)"
                     )
             if int(fire_coords[0]) > enemy_board.length:
                 raise ValueError(
@@ -247,6 +247,8 @@ def begin_battle(player_name):
     enemy_board = Board("enemy", 10, 10)
 
     print_boards(player_name, player_board, enemy_board)
+
+    print(Fore.WHITE + "To fire: enter a column number, then a space, then a row number (e.g '2 1' to fire at column 2, row 1)")
 
     still_playing = True
     while still_playing:
