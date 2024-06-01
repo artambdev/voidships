@@ -27,7 +27,10 @@ The website is designed for two possible users and  user stories:
 - 10. As the site owner, I want account data to be validated to avoid abuse
 
 ## Design
-I made a flowchart using Lucidchart to map out the basic game flow and where inputs are expected of users, and how their outcome should feed back into the 
+I made a flowchart using Lucidchart to map out the basic game flow and where inputs are expected of users, and how their outcome should feed back into the game flow.
+<details><summary>Flowchart</summary>
+<img src="docs/flowchart.png">
+</details>
 
 ## Credits
 Technology used:
