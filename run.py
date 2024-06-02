@@ -371,7 +371,6 @@ def begin():
     """
     Initial sequence: welcome the player and begin the login/signup process
     """
-    print_victory()
     print_opening()
     time.sleep(0.5)
     accounts.ask_account()
