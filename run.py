@@ -310,7 +310,7 @@ def begin_battle(player_name):
     Contains the main game logic
     Set up the match, then continuously ask for and parse player commands until someone has won
     """
-    player_board = Board("player", 10, 10)
+    player_board = Board("player", 5, 5)
     enemy_board = Board("enemy", 10, 10)
 
     time.sleep(0.5)
