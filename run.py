@@ -122,7 +122,8 @@ class Board:
     
         if len(good_targets) == 0:
             for space in all_spaces:
-                good_targets.append(space)
+                if not space.shot_at:
+                    good_targets.append(space)
         random.shuffle(good_targets)
         return good_targets[0]
 
@@ -256,7 +257,7 @@ def print_boards(player_name, player_board, enemy_board):
 
     time.sleep(1)
 
-    print(f"{Fore.RED}\n- IMPERIAL PATROL -")
+    print(f"{Fore.RED}- IMPERIAL PATROL -")
     enemy_board.print_board()
 
 def print_victory():
