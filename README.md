@@ -6,36 +6,122 @@
 2. [User Stories](#user-stories)
 3. [Design](#design)
 4. [Features](#features)
-5. [Validation](#validation)
-6. [Bugs](#bugs)
-7. [Deployment](#deployment)
-8. [Credits](#credits)
+5. [Data Model](#data-model)
+6. [Validation](#validation)
+7. [Bugs](#bugs)
+8. [Deployment](#deployment)
+9. [Credits](#credits)
 
 ## Overview
 Voidships is a terminal-based online game based off the classic Battleships design. Users can make a persistent account and play the game versus a computer opponent.
 
 ## User Stories
-The website is designed for two possible users and  user stories:
+The website is designed for two possible users and 10 user stories:
 
 ### User: Player
-- 1. As a player, I want to be able to play a Battleships esque game in full
-- 2. As a player, I want to 
-- 3. As a player, I want feedback on what me and the other player do
-- 4. As a player, I want to be able to sign up for an account
-- 5. As a player, I want feedback on any mistakes I make while signing up
-- 6. As a player, I want to be able to log into my existing account to play again
+- 1. As a player, I want to be welcomed to the app in a visually pleasing way
+- 2. As a player, I want to be able to play a Battleships esque game in full
+- 3. As a player, I want to be able to easily understand how the game is progressing
+- 4. As a player, I want feedback on what me and the other player do
+- 5. As a player, I want to be able to sign up for an account
+- 6. As a player, I want feedback on any mistakes I make while signing up
+- 7. As a player, I want to be able to log into my existing account to play again
+- 8. As a player, I want to be able to personalize my experience
 
 ### User: Site Owner
-- 7. As the site owner, I want to allow users to sign up for an account
-- 8. As the site owner, I want to easily review how many people have played the game
-- 9. As the site owner, I want players to understand where they make wrong inputs and what to do
-- 10. As the site owner, I want account data to be validated to avoid abuse
+- 9. As the site owner, I want to allow users to sign up for an account
+- 10. As the site owner, I want to easily review how many people have played the game
+- 11. As the site owner, I want players to understand where they make wrong inputs and what to do
+- 12. As the site owner, I want account data to be validated to avoid abuse
 
 ## Design
 I made a flowchart using Lucidchart to map out the basic game flow and where inputs are expected of users, and how their outcome should feed back into the game flow.
 <details><summary>Flowchart</summary>
 <img src="docs/flowchart.png">
 </details>
+
+## Features
+
+### Welcome Screen
+When opening the game or declining to restart a finished game, a welcome screen pops up with a logo and some lore. This is immediately followed by the login/signup prompt. Text pops in line-by-line for a cinematic and smooth feel.
+User stories: 1
+<details><summary>Welcome</summary>
+<img src="docs/features/welcome.png">
+</details>
+
+### Signup
+Players without an existing account can type N to start creating a new account, and are prompted to choose a username and password. The data inputted is validated against a user database hosted on Google Sheets and has some requirements to avoid abuse, such as a minimum character count and requirement for unique usernames.
+User stories: 5, 6, 9, 10
+<details><summary>Signup</summary>
+<img src="docs/features/signup.png">
+</details>
+
+### Login
+Players with an existing account can log in by entering a username or password, which is checked against the database. Failure to enter a valid combination returns them to the login/signup prompt in case they are mistaken and need to make a new account.
+User stories: 7, 12
+<details><summary>Login</summary>
+<img src="docs/features/login.png">
+</details>
+
+### Name Choice
+Before playing the player is first offered a chance to name their captain, whose name appears above their board.
+User stories: 8
+<details><summary>Naming</summary>
+<img src="docs/features/naming.png">
+</details>
+
+### Boards
+The player and enemy boards are displayed each round so the player can keep track of where they want to shoot, and how well the computer player is doing.
+User stories: 2, 3, 4
+<details><summary>Board Display</summary>
+<img src="docs/features/boards.png">
+</details>
+
+### Player shots
+The player is prompted to pick an enemy space to shoot each round. Invalid selections such as those outside the board or that aren't two sets of numbers are rejected and a new shot is asked for until a valid one is inputted. Afterwards, the result is printed to give immediate feedback on if a hit was made or not.
+User stories: 2, 4
+<details><summary>Player Shots</summary>
+<img src="docs/features/shootfail.png">
+</details>
+
+### Enemy shots
+After the player, the computer player automatically takes its turn. The computer plays with some intelligence such as prioritizing firing at spaces adjacent to those it has found ships on. Feedback for its actions is also printed to the player.
+User stories: 2, 4
+<details><summary>Enemy Shots</summary>
+<img src="docs/features/shoot.png">
+</details>
+
+### Victory screen
+If the player destroys all enemy ships, they are given a big victory screen to congratulate them.
+User stories: 2, 3
+<details><summary>Victory</summary>
+<img src="docs/features/victory.png">
+</details>
+
+### Defeat screen
+If the computer player destroys all player ships, the player is given a defeat screen.
+<details><summary>Defeat</summary>
+<img src="docs/features/defeat.png">
+</details>
+
+### Retry option
+After a victory or defeat, the player is offered to play again, or not. If they restart, a new battle begins. If they do not, they are brought back to the welcome screen.
+<details><summary>Retry</summary>
+<img src="docs/features/again.png">
+</details>
+
+## Data Model
+The player and enemy boards are programmed as "Board" classes, which handle many functions in regards to game mechanics. This includes:
+- Placing ships - and validating where they can be placed
+- Printing out the board visual
+- Choosing good locations for the computer player to fire at
+- Storing a list of the board's columns
+
+Boards store their spaces, which are also individual classes. Each space stores:
+- Its location in its board's grid
+- Whether it contains a ship or not
+- If it has been fired at or not
+The spaces also handle the behaviour when they are shot, appropriately changing their variables and reporting into the terminal whether the shot was a hit or miss.
 
 ## Deployment
 The project was deployed using the online platform Heroku. The following steps were taken:
