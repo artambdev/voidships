@@ -288,6 +288,23 @@ def print_defeat():
                                            
                                            """)
 
+def ask_play_again(player_name):
+    """
+    Ask if the player wants to play another game
+    If yes, start a new game
+    If no, send them back to the welcome screen
+    """
+    while True:
+        response = input(Fore.YELLOW + "Play again? Y/N: \n").lower()
+        if response == "y":
+            begin_battle(player_name)
+            break
+        elif response == "n":
+            begin()
+            break
+        else:
+            print(Fore.RED + "Please enter Y for yes or N for no.")
+
 def begin_battle(player_name):
     """
     Contains the main game logic
@@ -325,9 +342,13 @@ def begin_battle(player_name):
             print_defeat()
             break
 
-        time.sleep(1)
+        time.sleep(0.75)
         
         print_boards(player_name, player_board, enemy_board)
+
+        time.sleep(0.25)
+
+    ask_play_again(player_name)
 
 def pre_battle():
     """
