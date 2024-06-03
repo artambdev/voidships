@@ -123,6 +123,21 @@ Boards store their spaces, which are also individual classes. Each space stores:
 - If it has been fired at or not
 The spaces also handle the behaviour when they are shot, appropriately changing their variables and reporting into the terminal whether the shot was a hit or miss.
 
+## Validation
+
+### Python
+<a href="https://pep8ci.herokuapp.com/">PEP8 Python Linter</a> was used to validate all three Python files and no errors are returned.
+The validator was provided by Code Institute.
+<details><summary>run.py</summary>
+<img src="docs/validation/validate_run.png">
+</details>
+<details><summary>accounts.py</summary>
+<img src="docs/validation/validate_accounts.png">
+</details>
+<details><summary>ship_types.py</summary>
+<img src="docs/validation/validate_ships.png">
+</details>
+
 ## Deployment
 The project was deployed using the online platform Heroku. The following steps were taken:
 1. Log in or sign up to the Heroku website:
