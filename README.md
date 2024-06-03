@@ -27,10 +27,10 @@ The website is designed for two possible users and 10 user stories:
 - 6. As a player, I want feedback on any mistakes I make while signing up
 - 7. As a player, I want to be able to log into my existing account to play again
 - 8. As a player, I want to be able to personalize my experience
+- 9. As a player, I want to be able to replay the game easily
 
 ### User: Site Owner
-- 9. As the site owner, I want to allow users to sign up for an account
-- 10. As the site owner, I want to easily review how many people have played the game
+- 10. As the site owner, I want to allow users to sign up for an account
 - 11. As the site owner, I want players to understand where they make wrong inputs and what to do
 - 12. As the site owner, I want account data to be validated to avoid abuse
 
@@ -72,14 +72,14 @@ User stories: 8
 
 ### Boards
 The player and enemy boards are displayed each round so the player can keep track of where they want to shoot, and how well the computer player is doing.
-User stories: 2, 3, 4
+User stories: 3, 4
 <details><summary>Board Display</summary>
 <img src="docs/features/boards.png">
 </details>
 
 ### Player shots
 The player is prompted to pick an enemy space to shoot each round. Invalid selections such as those outside the board or that aren't two sets of numbers are rejected and a new shot is asked for until a valid one is inputted. Afterwards, the result is printed to give immediate feedback on if a hit was made or not.
-User stories: 2, 4
+User stories: 2, 4, 11
 <details><summary>Player Shots</summary>
 <img src="docs/features/shootfail.png">
 </details>
@@ -100,6 +100,7 @@ User stories: 2, 3
 
 ### Defeat screen
 If the computer player destroys all player ships, the player is given a defeat screen.
+User stories: 2, 3
 <details><summary>Defeat</summary>
 <img src="docs/features/defeat.png">
 </details>
@@ -129,50 +130,177 @@ The spaces also handle the behaviour when they are shot, appropriately changing 
 <a href="https://pep8ci.herokuapp.com/">PEP8 Python Linter</a> was used to validate all three Python files and no errors are returned.
 The validator was provided by Code Institute.
 <details><summary>run.py</summary>
-<img src="docs/validation/validate_run.png">
+<img src="docs/validation/validate-run.png">
 </details>
 <details><summary>accounts.py</summary>
-<img src="docs/validation/validate_accounts.png">
+<img src="docs/validation/validate-accounts.png">
 </details>
 <details><summary>ship_types.py</summary>
-<img src="docs/validation/validate_ships.png">
+<img src="docs/validation/validate-ships.png">
+</details>
+
+### User Stories
+
+Below is a list of user stories and the process by which they are fulfilled:
+
+1. As a player, I want to be welcomed to the app in a visually pleasing way
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Welcome screen | Open the program | Find a nice welcome screen | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-1.png">
+</details>
+
+2. As a player, I want to be able to play a Battleships esque game in full
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Player shots | Enter a set of grid coordinates | A turn is taken in the game | Works as expected |
+| Enemy shots | Successfully complete a turn | The enemy takes a turn as well | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-2.png">
+</details>
+
+3. As a player, I want to be able to easily understand how the game is progressing
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Board visuals | Open the game or take a turn | The display updates with the current game progress visually displayed | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-3.png">
+</details>
+
+4. As a player, I want feedback on what me and the other player do
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Player shots | Enter a set of grid coordinates and press enter | Receive feedback on the shot, or the reason it is invalid | Works as expected |
+| Enemy shots | Enter a set of grid coordinates and press enter | Receive feedback on what the computer decided to do | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-4.png">
+</details>
+
+5. As a player, I want to be able to sign up for an account
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Signup | At the welcome screen, type N and press enter, then enter a username and password | Create a persistent account to play with | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-5.png">
+</details>
+
+6. As a player, I want feedback on any mistakes I make while signing up
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Signup | Enter a name that is too short, or already taken | The signup is rejected and feedback is given | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-6.png">
+</details>
+
+7. As a player, I want to be able to log into my existing account to play again
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Login | At the welcome screen, type Y and enter your username and password | Log in to an existing account | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-7.png">
+</details>
+
+8. As a player, I want to be able to personalize my experience
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Name choice | At the welcome screen, log in or sign up for an account | Be prompted to choose a captain's name for the session | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-8.png">
+</details>
+
+9. As a player, I want to be able to replay the game easily
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Reply function | Complete the game by destroying all enemy ships or losing all your ships | The game prompts the player for a restart | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-9.png">
+</details>
+
+10. As the site owner, I want to allow users to sign up for an account
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Signup | At the welcome screen, type N and press enter, then enter a username and password | Create a persistent account to play with | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-5.png">
+</details>
+
+11. As the site owner, I want players to understand where they make wrong inputs and what to do
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Signup | Enter a name that is too short, or already taken | The signup is rejected and feedback is given | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-1.png">
+</details>
+
+12. As the site owner, I want account data to be validated to avoid abuse
+
+| **Feature** | **Action** | **Expected Result** | **Actual Result** |
+|-------------|------------|---------------------|-------------------|
+| Player shots | Enter a set of grid coordinates outside the board | Receive feedback on the reason the choice is invalid | Works as expected |
+| Signup | Enter name or password that's too short | The new account is rejected and a reason given why | Works as expected |
+
+<details><summary>Screenshot</summary>
+<img src="docs/validation/user-stories/story-9.png">
 </details>
 
 ## Deployment
 The project was deployed using the online platform Heroku. The following steps were taken:
 1. Log in or sign up to the Heroku website:
 <details><summary>Image</summary>
-<img src="docs/heroku/heroku_login.png">
+<img src="docs/heroku/heroku-login.png">
 </details>
 
 2. Click the "new" button and then "Create a new app"
 <details><summary>Image</summary>
-<img src="docs/heroku/heroku_newapp.png">
+<img src="docs/heroku/heroku-newapp.png">
 </details>
 
 3. Choose an app name and region to use, Europe in my case
 <details><summary>Image</summary>
-<img src="docs/heroku/heroku_newapp2.png">
+<img src="docs/heroku/heroku-newapp2.png">
 </details>
 
 4. Navigate to the "Settings" tab of the new app and set the config vars: PORT as 8000, and CREDS as the project's creds.json used for the Google Sheets user database
 <details><summary>Image</summary>
-<img src="docs/heroku/heroku_configvars.png">
+<img src="docs/heroku/heroku-configvars.png">
 </details>
 
 5. Navigate to the "Buildpacks" section of this page and add Python as a buildpack, and then the nodejs buildpack, so that Python is above nodejs
 <details><summary>Image</summary>
-<img src="docs/heroku/heroku_buildpacks.png">
+<img src="docs/heroku/heroku-buildpacks.png">
 </details>
 
 6. Go to the "Deploy" page and select GitHub as a deploy method, log in via GitHub and then select the desired repository
 <details><summary>Image</summary>
-<img src="docs/heroku/heroku_deploy1.png">
+<img src="docs/heroku/heroku-deploy1.png">
 </details>
 
 7. Go to "Manual deploy", make sure the main branch is selected, and click "Deploy"
 <details><summary>Image</summary>
-<img src="docs/heroku/heroku_deploy2.png">
+<img src="docs/heroku/heroku-deploy2.png">
 </details>
 
 ### Forking
