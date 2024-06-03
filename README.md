@@ -182,7 +182,8 @@ Below is a list of user stories and the process by which they are fulfilled:
 | Enemy shots | Enter a set of grid coordinates and press enter | Receive feedback on what the computer decided to do | Works as expected |
 
 <details><summary>Screenshot</summary>
-<img src="docs/validation/user-stories/story-4.png">
+<img src="docs/validation/user-stories/story-4b.png">
+<img src="docs/validation/user-stories/story-2.png">
 </details>
 
 5. As a player, I want to be able to sign up for an account
@@ -249,10 +250,12 @@ Below is a list of user stories and the process by which they are fulfilled:
 
 | **Feature** | **Action** | **Expected Result** | **Actual Result** |
 |-------------|------------|---------------------|-------------------|
+| Player shots | Enter a set of grid coordinates outside the board | Receive feedback on the reason the choice is invalid | Works as expected |
 | Signup | Enter a name that is too short, or already taken | The signup is rejected and feedback is given | Works as expected |
 
 <details><summary>Screenshot</summary>
-<img src="docs/validation/user-stories/story-1.png">
+<img src="docs/validation/user-stories/story-4b.png">
+<img src="docs/validation/user-stories/story-6.png">
 </details>
 
 12. As the site owner, I want account data to be validated to avoid abuse
@@ -263,7 +266,7 @@ Below is a list of user stories and the process by which they are fulfilled:
 | Signup | Enter name or password that's too short | The new account is rejected and a reason given why | Works as expected |
 
 <details><summary>Screenshot</summary>
-<img src="docs/validation/user-stories/story-9.png">
+<img src="docs/validation/user-stories/story-6.png">
 </details>
 
 ## Deployment
