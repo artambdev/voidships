@@ -218,10 +218,8 @@ def enemy_action(player_board):
     Enemy shoots at a player grid space, with text report
     """
     enemy_picked_space = player_board.pick_target()
-    print(f""""
-        {Fore.RED}\nThe enemy fired at:
-        ({str(enemy_picked_space.x + 1)}, {str(enemy_picked_space.y + 1)})
-        """)
+    print(Fore.RED + "\nThe enemy fired at:")
+    print(f"({str(enemy_picked_space.x + 1)}, {str(enemy_picked_space.y + 1)})")
     time.sleep(0.5)
     enemy_picked_space.get_hit()
 
