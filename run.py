@@ -230,8 +230,6 @@ def ask_for_shot(enemy_board):
     Make sure it's a valid command: if not,
     tell them why and ask again until they provide a valid one
     """
-    width = enemy_board.width
-    length = enemy_board.length
     waiting_for_command = True
     while waiting_for_command:
         fire_command = input(Fore.WHITE + "Your command: \n")
@@ -244,9 +242,11 @@ def ask_for_shot(enemy_board):
                 if int(coord) < 1:
                     raise ValueError("Coordinates must be positive numbers")
             if int(fire_coords[0]) > enemy_board.length:
-                raise ValueError(f"Too far right! Furthest column: {width}")
+                length = str(enemy_board.length)
+                raise ValueError(f"Too far right! Furthest column: {length}")
             if int(fire_coords[1]) > enemy_board.width:
-                raise ValueError(f"Too far down! Lowest row: {length}")
+                width = str(enemy_board.width)
+                raise ValueError(f"Too far down! Lowest row: {width}")
             grid = enemy_board.grid
             hit_space = grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
             if hit_space.shot_at:
