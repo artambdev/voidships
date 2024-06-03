@@ -242,6 +242,10 @@ def ask_for_shot(enemy_board):
                     f"Too far down! You picked row {fire_coords[1]}, lowest is row {enemy_board.width}"
                 )
             hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
+            if hit_space.shot_at:
+                raise ValueError(
+                    f"You have already shot at this space before"
+                )
             hit_space.get_hit()
             waiting_for_command = False
         except ValueError as e:
