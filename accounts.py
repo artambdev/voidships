@@ -80,26 +80,16 @@ def try_signup():
     Keep asking until a username is given that isn't already taken
     Both username and password must fit a given length as well
     """
-    print(f"""
-    {Fore.YELLOW}Please enter your desired username (at least 3 characters)
-    and password (at least 5 characters).
-    """)
+    print(Fore.YELLOW + "Enter your desired username (at least 3 characters)")
+    print("and password (at least 5 characters)")
     while True:
         given_username = str(input(Fore.YELLOW + "Username: \n"))
         given_password = str(input(Fore.YELLOW + "Password: \n"))
         try:
             if len(given_username) < 3:
-                raise ValueError(
-                    f"""
-                    Username is only {str(len(given_username))} characters,
-                    must be at least 3.
-                    """
-                )
+                raise ValueError("Minimum username length: 3 characters")
             if len(given_password) < 5:
-                raise ValueError(
-                    f"""Password is only {str(len(given_password))} characters,
-                    must be at least 5."""
-                )
+                raise ValueError("Minimum password length: 5 characters")
             if username_exists(given_username):
                 raise ValueError(
                     f"This username is already taken."
