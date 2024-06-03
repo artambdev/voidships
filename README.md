@@ -15,6 +15,51 @@
 ## Overview
 Voidships is a terminal-based online game based off the classic Battleships design. Users can make a persistent account and play the game versus a computer opponent.
 
+### User manual
+
+<details><summary>Instructions on how to play</summary>
+
+#### Welcome
+- Opening the game, the user is presented with a welcome screen with some lore text.
+- Then, they are asked if they have an existing account for the game.
+
+#### Signup
+- A player without an account can type N to begin creating one, and is asked for a username and password.
+- Usernames must be at least 3 characters long, and passwords must be at least 5 characters long.
+- Usernames must also be unique and not already existing in the user database.
+- A player with an account can type Y to log in to it.
+
+#### Login
+- The username and password must match an entry in the user database
+- Failed logins are rejected and the user is again asked if they have an existing account
+
+#### Captain Naming
+- After logging in or signing up, the user is given a choice to name their captain.
+- The captain's name can be anything they like, as long as it's not empty.
+
+#### Board Display
+- Then, the two boards are displayed, player (as, e.g "Tom's Pirate Raiders") and enemy (as "Imperial Patrol")
+- Intact player ships are indicated as "@" and destroyed ships as "#"
+- Unknown spaces (in the player's case, only empty player spaces) are marked as "~"
+- Empty spaces that have been shot at are marked as "X"
+- The player cannot see intact ship spaces on the enemy board unless they have been destroyed
+
+#### Firing
+- The player is asked to input co-ordinates to fire at.
+- The location must be valid: two numbers (column, then row), within the board and not already fired at
+- After the player fires, some text feedback is provided on their shot ("Missed!" or "DIRECT HIT!")
+- Then, the enemy player fires at the player, and feedback is provided on their shot.
+- The boards display again after each round of firing.
+
+#### Victory/Defeat
+- The game ends when either the player or enemy have no ships left.
+- If the player wins, a big green "Victory!" message is displayed
+- If the enemy wins, a big red "Defeat..." message is displayed
+- Afterwards, the play is prompted if they want to play again, with a yes (Y) or no (N) response
+- On a yes, a new battle is created (as "Board Display" begins)
+- On a no, the player is sent back to the welcome screen
+</details>
+
 ## User Stories
 The website is designed for two possible users and 10 user stories:
 
@@ -39,6 +84,8 @@ I made a flowchart using Lucidchart to map out the basic game flow and where inp
 <details><summary>Flowchart</summary>
 <img src="docs/flowchart.png">
 </details>
+
+
 
 ## Features
 
@@ -123,6 +170,8 @@ Boards store their spaces, which are also individual classes. Each space stores:
 - Whether it contains a ship or not
 - If it has been fired at or not
 The spaces also handle the behaviour when they are shot, appropriately changing their variables and reporting into the terminal whether the shot was a hit or miss.
+
+The program relies on a Google Sheets database to store user information. One column stores their names, another stores their passwords.
 
 ## Validation
 
@@ -268,6 +317,12 @@ Below is a list of user stories and the process by which they are fulfilled:
 <details><summary>Screenshot</summary>
 <img src="docs/validation/user-stories/story-6.png">
 </details>
+
+## Bugs
+Notable bugs found during development:
+
+- Enemy shots were occasionally sent at locations where ships had already been destroyed. This ended up being because the computer player would not remove those spaces from its selection if it had no hints to where ships might be. This was fixed by removing all already-shot spaces from its possible choices.
+- Enemy shot locations were initially reported as being to the bottom-right of where they were actually made. This was discovered to be because a space stores its location as its indexes in the grid's list of spaces, not as its actual X and Y coordinates on the board. This was fixed by offsetting the reported location's X and Y values by 1.
 
 ## Deployment
 The project was deployed using the online platform Heroku. The following steps were taken:
