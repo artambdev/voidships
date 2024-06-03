@@ -256,7 +256,7 @@ def ask_for_shot(enemy_board):
             hit_space.get_hit()
             waiting_for_command = False
         except ValueError as e:
-            print(f"{Fore.WHITE}Invalid co-ordinates: {e.strip()}.\n")
+            print(f"{Fore.WHITE}Invalid co-ordinates: {e}.\n")
             time.sleep(1)
 
 
