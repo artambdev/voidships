@@ -1,6 +1,10 @@
 # Voidships
 - developed by Arthur Ambalov
 
+<a href="https://artamb-voidships-9e8ccae99565.herokuapp.com/">Link to website</a>
+
+<img src="docs/am-i-responsive.png">
+
 ## Table of Contents
 1. [Overview](#overview)
 2. [User Stories](#user-stories)
@@ -84,8 +88,6 @@ I made a flowchart using Lucidchart to map out the basic game flow and where inp
 <details><summary>Flowchart</summary>
 <img src="docs/flowchart.png">
 </details>
-
-
 
 ## Features
 
@@ -232,6 +234,7 @@ Below is a list of user stories and the process by which they are fulfilled:
 
 <details><summary>Screenshot</summary>
 <img src="docs/validation/user-stories/story-4b.png">
+
 <img src="docs/validation/user-stories/story-2.png">
 </details>
 
@@ -381,9 +384,12 @@ Technology used:
 - Flowchart: Lucidchart
 
 Third party libraries:
-- <a href="https://pypi.org/project/colorama/">Colorama</a> for coloured text
+- <a href="https://pypi.org/project/colorama/">Colorama</a> was used to create the colored text. This function was not in the standard Python library and was used to differentiate the feedback given by the game, and to offer some visual flair.
+- <a href="https://github.com/burnash/gspread">gspread</a> was used to open, modify and save the Google Sheets spreadsheet used as a user database, which Python's standard libraries cannot do. This was important for being able to store and validate user data.
+- <a href="https://google-auth.readthedocs.io/en/stable/reference/google.oauth2.credentials.html">Google OAuth</a> was used for the credentials required for the program to modify and access the Google Sheets spreadsheet for the user database, as the feature would not be possible with Python's standard libraries.
 
 Code:
+- Inspiration for usage of the gspread and Google OAuth for using Google Sheets as a database from Code Institute's <a href="https://github.com/Code-Institute-Solutions/love-sandwiches-p5-sourcecode">Love Sandwiches</a> walkthrough project
 - Code for Python terminal provided by Code Institute
 
 Other:
