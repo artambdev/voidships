@@ -5,6 +5,7 @@ import accounts
 
 from colorama import Fore
 
+
 class GridSpace():
     """
     Class representing a single space in the board
@@ -17,17 +18,18 @@ class GridSpace():
         self.ship = None
         self.know_empty = False
         self.shot_at = False
-    
+
     def get_hit(self):
         """
         Sets a space as being 'hit' and shows feedback
         """
         self.shot_at = True
-        if self.ship == None:
+        if self.ship is None:
             print("Missed!")
             self.know_empty = True
         else:
             print("DIRECT HIT!")
+
 
 class Board:
     """
@@ -49,9 +51,9 @@ class Board:
                 new_space = GridSpace(i, j)
                 new_column.append(new_space)
             self.grid.append(new_column)
-        
+
         self.add_ships()
-    
+
     def print_board(self):
         """
         Prints out the board visually
@@ -93,11 +95,12 @@ class Board:
             for space in column:
                 all_spaces.append(space)
         return all_spaces.copy()
-    
+
     def pick_target(self):
         """
         For the AI enemy: picks a suitable target space to shoot at
-        If any destroyed ship space has adjacent unknown spaces, pick one of those
+        If any destroyed ship space has adjacent unknown spaces,
+        pick one of those
         Otherwise, pick a random space to probe
         """
         good_targets = []
@@ -105,7 +108,7 @@ class Board:
 
         found_ship_space = False
         for space in all_spaces:
-            if space.ship == None or space.shot_at == False:
+            if space.ship is None or space.shot_at is False:
                 continue
             if space.x != 0:
                 good_targets.append(self.grid[space.x - 1][space.y])
@@ -115,11 +118,11 @@ class Board:
                 good_targets.append(self.grid[space.x + 1][space.y])
             if space.y < self.width - 1:
                 good_targets.append(self.grid[space.x][space.y + 1])
-        
+
         for space in good_targets.copy():
             if space.shot_at:
                 good_targets.remove(space)
-    
+
         if len(good_targets) == 0:
             for space in all_spaces:
                 if not space.shot_at:
@@ -127,17 +130,21 @@ class Board:
         random.shuffle(good_targets)
         return good_targets[0]
 
-    
     def add_ships(self):
         """
         Adds a specified list of ships
         to random spaces in the board
         """
-        ships = [ship_types.Battleship(), ship_types.Cruiser(), ship_types.Destroyer(), ship_types.Destroyer(), ship_types.Frigate()]
+        ships = []
+        ships.append(ship_types.Battleship())
+        ships.append(ship_types.Cruiser())
+        ships.append(ship_types.Destroyer())
+        ships.append(ship_types.Destroyer())
+        ships.append(ship_types.Frigate())
         for ship in ships:
             all_spaces = self.get_all_spaces()
             for space in all_spaces.copy():
-                if space.ship != None:
+                if space.ship is not None:
                     all_spaces.remove(space)
             picked = False
             while not picked:
@@ -148,14 +155,15 @@ class Board:
                 trying_to_place = True
                 while trying_to_place:
                     direction = orientations.pop(0)
-                    clear = self.check_clear(picked_space, ship.length, direction == "down")
+                    down = direction == "down"
+                    clear = self.check_clear(picked_space, ship.length, down)
                     if clear:
-                        self.place_ship(picked_space, ship.length, direction == "down")
+                        self.place_ship(picked_space, ship.length, down)
                         trying_to_place = False
                         picked = True
                     if len(orientations) == 0:
                         trying_to_place = False
-    
+
     def check_clear(self, from_space, spaces, down):
         """
         Check if a ship of defined length of spaces could be
@@ -168,14 +176,14 @@ class Board:
             for i in range(spaces):
                 if y + i > self.length - 1:
                     return False
-                if self.grid[x][y + i].ship != None:
+                if self.grid[x][y + i].ship is not None:
                     return False
             return True
         else:
             for i in range(spaces):
                 if x + i > self.width - 1:
                     return False
-                if self.grid[x + i][y].ship != None:
+                if self.grid[x + i][y].ship is not None:
                     return False
             return True
 
@@ -193,24 +201,30 @@ class Board:
             for i in range(length):
                 self.grid[x + i][y].ship = "ship"
 
+
 def check_win(board):
     """
     Checks if a player has won the game via their opponent's board
     If the other board contains no non-hit ships, their opponent has lost
     """
     for space in board.get_all_spaces():
-        if (space.ship != None) and (space.shot_at == False):
+        if (space.ship is not None) and not space.shot_at:
             return False
     return True
+
 
 def enemy_action(player_board):
     """
     Enemy shoots at a player grid space, with text report
     """
     enemy_picked_space = player_board.pick_target()
-    print(f"{Fore.RED}\nThe enemy fired at: ({str(enemy_picked_space.x + 1)}, {str(enemy_picked_space.y + 1)})")
+    print(f""""
+        {Fore.RED}\nThe enemy fired at:
+        ({str(enemy_picked_space.x + 1)}, {str(enemy_picked_space.y + 1)})
+        """)
     time.sleep(0.5)
     enemy_picked_space.get_hit()
+
 
 def ask_for_shot(enemy_board):
     """
@@ -226,22 +240,33 @@ def ask_for_shot(enemy_board):
             [int(coord) for coord in fire_coords]
             if len(fire_coords) != 2:
                 raise ValueError(
-                    f"Fire command must be followed by two numbers (column number, a space, then row number)\ne.g 'fire 4 2'"
+                    f"""
+                    Fire command must be followed by two numbers
+                    (column number, a space, then row number)\ne.g 'fire 4 2'
+                    """
                 )
             for coord in fire_coords:
                 if int(coord) < 1:
-                    raise ValueError(
-                        f"Fire command coordinates must be positive numbers (number of column then row to target)"
-                    )
+                    raise ValueError(f""""
+                        Fire command coordinates must be positive numbers
+                        (number of column then row to target)
+                        """)
             if int(fire_coords[0]) > enemy_board.length:
                 raise ValueError(
-                    f"Too far right! You picked column {fire_coords[0]}, furthest is column {enemy_board.length}"
+                    f"""
+                    Too far right! You picked column {fire_coords[0]},
+                    furthest is column {enemy_board.length}
+                    """
                 )
             if int(fire_coords[1]) > enemy_board.width:
                 raise ValueError(
-                    f"Too far down! You picked row {fire_coords[1]}, lowest is row {enemy_board.width}"
+                    f"""
+                    Too far down! You picked row {fire_coords[1]},
+                    lowest is row {enemy_board.width}
+                    """
                 )
-            hit_space = enemy_board.grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
+            grid = enemy_board.grid
+            hit_space = grid[int(fire_coords[1]) - 1][int(fire_coords[0]) - 1]
             if hit_space.shot_at:
                 raise ValueError(
                     f"You have already shot at this space before"
@@ -251,6 +276,7 @@ def ask_for_shot(enemy_board):
         except ValueError as e:
             print(f"{Fore.WHITE}Invalid co-ordinates: {e}.\n")
             time.sleep(1)
+
 
 def print_boards(player_name, player_board, enemy_board):
     """
@@ -264,33 +290,34 @@ def print_boards(player_name, player_board, enemy_board):
     print(f"{Fore.RED}- IMPERIAL PATROL -")
     enemy_board.print_board()
 
+
 def print_victory():
     """
     Show a large Victory! screen
     """
     print(Fore.GREEN)
-    print(r""" _   _  _        _                        _ 
+    print(r""" _   _  _        _                        _
 | | | |(_)      | |                      | |
 | | | | _   ___ | |_  ___   _ __  _   _  | |
 | | | || | / __|| __|/ _ \ | '__|| | | | | |
 \ \_/ /| || (__ | |_| (_) || |   | |_| | |_|
  \___/ |_| \___| \__|\___/ |_|    \__, | (_)
-                                   __/ |    
-                                  |___/     """)
+                                   __/ |
+                                  |___/""")
+
 
 def print_defeat():
     """
     Show a large Defeat... screen
     """
     print(Fore.RED)
-    print(r"""______        __              _            
-|  _  \      / _|            | |           
-| | | | ___ | |_  ___   __ _ | |_          
-| | | |/ _ \|  _|/ _ \ / _` || __|         
-| |/ /|  __/| | |  __/| (_| || |_  _  _  _ 
-|___/  \___||_|  \___| \__,_| \__|(_)(_)(_)
-                                           
-                                           """)
+    print(r"""______        __              _
+|  _  \      / _|            | |
+| | | | ___ | |_  ___   __ _ | |_
+| | | |/ _ \|  _|/ _ \ / _` || __|
+| |/ /|  __/| | |  __/| (_| || |_  _  _  _
+|___/  \___||_|  \___| \__,_| \__|(_)(_)(_)""")
+
 
 def ask_play_again(player_name):
     """
@@ -309,12 +336,14 @@ def ask_play_again(player_name):
         else:
             print(Fore.RED + "Please enter Y for yes or N for no.")
 
+
 def begin_battle(player_name):
     """
     Contains the main game logic
-    Set up the match, then continuously ask for and parse player commands until someone has won
+    Set up the match, then continuously ask for and
+    parse player commands until someone has won
     """
-    player_board = Board("player", 5, 5)
+    player_board = Board("player", 10, 10)
     enemy_board = Board("enemy", 10, 10)
 
     time.sleep(0.5)
@@ -323,20 +352,23 @@ def begin_battle(player_name):
 
     time.sleep(0.25)
 
-    print(Fore.WHITE + "To fire: enter a column number, then a space, then a row number (e.g '2 1' to fire at column 2, row 1)")
+    print(f"""
+    {Fore.WHITE}To fire: enter a column number, then a space, then
+    a row number (e.g '2 1' to fire at column 2, row 1)
+    """)
 
     still_playing = True
     while still_playing:
         ask_for_shot(enemy_board)
 
         time.sleep(0.5)
-        
+
         player_won = check_win(enemy_board)
         if player_won:
             still_playing = False
             print_victory()
             break
-        
+
         enemy_action(player_board)
         time.sleep(0.5)
 
@@ -347,12 +379,13 @@ def begin_battle(player_name):
             break
 
         time.sleep(0.75)
-        
+
         print_boards(player_name, player_board, enemy_board)
 
         time.sleep(0.25)
 
     ask_play_again(player_name)
+
 
 def pre_battle():
     """
@@ -360,13 +393,14 @@ def pre_battle():
     """
     while True:
         inputed_name = input("Enter your name, Captain: \n")
-        if inputed_name.isspace() == False:
+        if not inputed_name.isspace():
             inputed_name = inputed_name.title()
             print(f"\nWelcome aboard, Captain {inputed_name}.")
             break
         else:
             print("No name entered.")
     begin_battle(inputed_name)
+
 
 def print_opening():
     """
@@ -377,12 +411,12 @@ def print_opening():
     print("                         TO")
     time.sleep(0.5)
     print(r"""
-         _   _  _____ ___________  _____ _   _ ___________  _____ 
-        | | | ||  _  |_   _|  _  \/  ___| | | |_   _| ___ \/  ___|
-        | | | || | | | | | | | | |\ `--.| |_| | | | | |_/ /\ `--. 
-        | | | || | | | | | | | | | `--. \  _  | | | |  __/  `--. \
-        \ \_/ /\ \_/ /_| |_| |/ / /\__/ / | | |_| |_| |    /\__/ /
-         \___/  \___/ \___/|___/  \____/\_| |_/\___/\_|    \____/ 
+ _   _  _____ ___________  _____ _   _ ___________  _____
+| | | ||  _  |_   _|  _  \/  ___| | | |_   _| ___ \/  ___|
+| | | || | | | | | | | | |\ `--.| |_| | | | | |_/ /\ `--.
+| | | || | | | | | | | | | `--. \  _  | | | |  __/  `--. \
+\ \_/ /\ \_/ /_| |_| |/ / /\__/ / | | |_| |_| |    /\__/ /
+ \___/  \___/ \___/|___/  \____/\_| |_/\___/\_|    \____/
     """)
     time.sleep(1.5)
     print(Fore.CYAN + "\nIt is the far flung future.")
@@ -393,6 +427,7 @@ def print_opening():
     print("You are the commander of a pirate outfit, raiding imperial patrols")
     print("for fortune and glory.\n")
 
+
 def begin():
     """
     Initial sequence: welcome the player and begin the login/signup process
@@ -402,5 +437,6 @@ def begin():
     accounts.ask_account()
     time.sleep(0.5)
     pre_battle()
-        
+
+
 begin()
