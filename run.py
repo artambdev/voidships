@@ -336,10 +336,8 @@ def begin_battle(player_name):
 
     time.sleep(0.25)
 
-    print(f"""
-    {Fore.WHITE}To fire: enter a column number, then a space, then
-    a row number (e.g '2 1' to fire at column 2, row 1)
-    """)
+    print(Fore.WHITE + "To fire: enter a column number, then a space, then")
+    print("a row number (e.g '2 1' to fire at column 2, row 1)")
 
     still_playing = True
     while still_playing:
